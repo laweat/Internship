@@ -1,0 +1,129 @@
+{
+    "values": {
+        "inputs": {
+            "": {
+                "values": {
+                    "pos": {
+                        "values": {
+                            "y": 60.0, 
+                            "x": 120.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "param": {
+                        "values": {
+                            "isAdvanced": false, 
+                            "name": "", 
+                            "shapetype": [
+                                2
+                            ], 
+                            "default": null, 
+                            "value": null, 
+                            "exported": null, 
+                            "hidden": false, 
+                            "optional": false, 
+                            "description": "\uaca9\uc790"
+                        }, 
+                        "class": "processing.core.parameters.ParameterVector"
+                    }
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.ModelerParameter"
+            }, 
+            "2": {
+                "values": {
+                    "pos": {
+                        "values": {
+                            "y": 217.0, 
+                            "x": 123.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "param": {
+                        "values": {
+                            "isAdvanced": false, 
+                            "name": "2", 
+                            "shapetype": [
+                                -1
+                            ], 
+                            "default": null, 
+                            "value": null, 
+                            "exported": null, 
+                            "hidden": false, 
+                            "optional": false, 
+                            "description": "\uad50\ud1b5\ub7c9"
+                        }, 
+                        "class": "processing.core.parameters.ParameterVector"
+                    }
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.ModelerParameter"
+            }
+        }, 
+        "helpContent": {}, 
+        "group": "Standard analysis_Prep", 
+        "name": "3. \uad50\ud1b5\ub7c9 \uc804\ucc98\ub9ac \ubaa8\ub378", 
+        "algs": {
+            "QGISJOINATTRIBUTESBYLOCATION_1": {
+                "values": {
+                    "name": "QGISJOINATTRIBUTESBYLOCATION_1", 
+                    "paramsFolded": true, 
+                    "outputs": {
+                        "OUTPUT": {
+                            "values": {
+                                "description": "\uad50\ud1b5\ub7c9_\uc804\ucc98\ub9ac_Result", 
+                                "pos": {
+                                    "values": {
+                                        "y": 175.0, 
+                                        "x": 588.0
+                                    }, 
+                                    "class": "point"
+                                }
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ModelerOutput"
+                        }
+                    }, 
+                    "outputsFolded": true, 
+                    "pos": {
+                        "values": {
+                            "y": 130.0, 
+                            "x": 388.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "dependencies": [], 
+                    "params": {
+                        "PREDICATE": [
+                            "intersects", 
+                            "contains", 
+                            "equals", 
+                            "touches", 
+                            "overlaps", 
+                            "within", 
+                            "crosses"
+                        ], 
+                        "STATS": "sum", 
+                        "TARGET": {
+                            "values": {
+                                "name": ""
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromInput"
+                        }, 
+                        "PRECISION": 0.0, 
+                        "SUMMARY": 1, 
+                        "JOIN": {
+                            "values": {
+                                "name": "2"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromInput"
+                        }, 
+                        "KEEP": 1
+                    }, 
+                    "active": true, 
+                    "consoleName": "qgis:joinattributesbylocation", 
+                    "description": "Join \uad50\ud1b5\ub7c9"
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.Algorithm"
+            }
+        }
+    }, 
+    "class": "processing.modeler.ModelerAlgorithm.ModelerAlgorithm"
+}

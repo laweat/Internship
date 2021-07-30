@@ -1,0 +1,218 @@
+{
+    "values": {
+        "inputs": {
+            "electricvehicle": {
+                "values": {
+                    "pos": {
+                        "values": {
+                            "y": 205.0, 
+                            "x": 240.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "param": {
+                        "values": {
+                            "isAdvanced": false, 
+                            "name": "electricvehicle", 
+                            "shapetype": [
+                                0
+                            ], 
+                            "default": null, 
+                            "value": null, 
+                            "exported": null, 
+                            "hidden": false, 
+                            "optional": false, 
+                            "description": "Electric vehicle(\uc804\uae30\ucc28)"
+                        }, 
+                        "class": "processing.core.parameters.ParameterVector"
+                    }
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.ModelerParameter"
+            }, 
+            "chargingstation": {
+                "values": {
+                    "pos": {
+                        "values": {
+                            "y": 314.0, 
+                            "x": 243.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "param": {
+                        "values": {
+                            "isAdvanced": false, 
+                            "name": "chargingstation", 
+                            "shapetype": [
+                                0
+                            ], 
+                            "default": null, 
+                            "value": null, 
+                            "exported": null, 
+                            "hidden": false, 
+                            "optional": false, 
+                            "description": "charging station(\ucda9\uc804\uc18c)"
+                        }, 
+                        "class": "processing.core.parameters.ParameterVector"
+                    }
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.ModelerParameter"
+            }, 
+            "grid": {
+                "values": {
+                    "pos": {
+                        "values": {
+                            "y": 115.0, 
+                            "x": 241.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "param": {
+                        "values": {
+                            "isAdvanced": false, 
+                            "name": "grid", 
+                            "shapetype": [
+                                2
+                            ], 
+                            "default": null, 
+                            "value": null, 
+                            "exported": null, 
+                            "hidden": false, 
+                            "optional": false, 
+                            "description": "GRID(\uaca9\uc790)"
+                        }, 
+                        "class": "processing.core.parameters.ParameterVector"
+                    }
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.ModelerParameter"
+            }
+        }, 
+        "helpContent": {}, 
+        "group": "Standard analysis_Prep", 
+        "name": "2. \uc804\uae30\ucc28\uc640 \ucda9\uc804\uc18c \uc804\ucc98\ub9ac \ubaa8\ub378", 
+        "algs": {
+            "QGISCOUNTPOINTSINPOLYGON_2": {
+                "values": {
+                    "name": "QGISCOUNTPOINTSINPOLYGON_2", 
+                    "paramsFolded": true, 
+                    "outputs": {}, 
+                    "outputsFolded": true, 
+                    "pos": {
+                        "values": {
+                            "y": 326.0, 
+                            "x": 538.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "dependencies": [], 
+                    "params": {
+                        "FIELD": "\ucda9\uc804\uc18c", 
+                        "POINTS": {
+                            "values": {
+                                "name": "chargingstation"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromInput"
+                        }, 
+                        "POLYGONS": {
+                            "values": {
+                                "name": "grid"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromInput"
+                        }
+                    }, 
+                    "active": true, 
+                    "consoleName": "qgis:countpointsinpolygon", 
+                    "description": "Count \ucda9\uc804\uc18c"
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.Algorithm"
+            }, 
+            "QGISJOINATTRIBUTESTABLE_1": {
+                "values": {
+                    "name": "QGISJOINATTRIBUTESTABLE_1", 
+                    "paramsFolded": true, 
+                    "outputs": {
+                        "OUTPUT_LAYER": {
+                            "values": {
+                                "description": "\uc804\uae30\ucc28\uc640_\ucda9\uc804\uc18c_\uc804\ucc98\ub9ac_Result", 
+                                "pos": {
+                                    "values": {
+                                        "y": 471.0, 
+                                        "x": 958.0
+                                    }, 
+                                    "class": "point"
+                                }
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ModelerOutput"
+                        }
+                    }, 
+                    "outputsFolded": true, 
+                    "pos": {
+                        "values": {
+                            "y": 426.0, 
+                            "x": 758.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "dependencies": [], 
+                    "params": {
+                        "INPUT_LAYER_2": {
+                            "values": {
+                                "alg": "QGISCOUNTPOINTSINPOLYGON_2", 
+                                "output": "OUTPUT"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromOutput"
+                        }, 
+                        "TABLE_FIELD": "gid", 
+                        "TABLE_FIELD_2": "gid", 
+                        "INPUT_LAYER": {
+                            "values": {
+                                "alg": "QGISCOUNTPOINTSINPOLYGON_1", 
+                                "output": "OUTPUT"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromOutput"
+                        }
+                    }, 
+                    "active": true, 
+                    "consoleName": "qgis:joinattributestable", 
+                    "description": "Join attributes table"
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.Algorithm"
+            }, 
+            "QGISCOUNTPOINTSINPOLYGON_1": {
+                "values": {
+                    "name": "QGISCOUNTPOINTSINPOLYGON_1", 
+                    "paramsFolded": true, 
+                    "outputs": {}, 
+                    "outputsFolded": true, 
+                    "pos": {
+                        "values": {
+                            "y": 164.0, 
+                            "x": 524.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "dependencies": [], 
+                    "params": {
+                        "FIELD": "\uc804\uae30\ucc28", 
+                        "POINTS": {
+                            "values": {
+                                "name": "electricvehicle"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromInput"
+                        }, 
+                        "POLYGONS": {
+                            "values": {
+                                "name": "grid"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromInput"
+                        }
+                    }, 
+                    "active": true, 
+                    "consoleName": "qgis:countpointsinpolygon", 
+                    "description": "Count \uc804\uae30\ucc28"
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.Algorithm"
+            }
+        }
+    }, 
+    "class": "processing.modeler.ModelerAlgorithm.ModelerAlgorithm"
+}

@@ -1,0 +1,117 @@
+{
+    "values": {
+        "inputs": {
+            "": {
+                "values": {
+                    "pos": {
+                        "values": {
+                            "y": 79.0, 
+                            "x": 184.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "param": {
+                        "values": {
+                            "isAdvanced": false, 
+                            "name": "", 
+                            "shapetype": [
+                                2
+                            ], 
+                            "default": null, 
+                            "value": null, 
+                            "exported": null, 
+                            "hidden": false, 
+                            "optional": false, 
+                            "description": "\uaca9\uc790"
+                        }, 
+                        "class": "processing.core.parameters.ParameterVector"
+                    }
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.ModelerParameter"
+            }, 
+            "2": {
+                "values": {
+                    "pos": {
+                        "values": {
+                            "y": 197.0, 
+                            "x": 189.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "param": {
+                        "values": {
+                            "isAdvanced": false, 
+                            "name": "2", 
+                            "shapetype": [
+                                -1
+                            ], 
+                            "default": null, 
+                            "value": null, 
+                            "exported": null, 
+                            "hidden": false, 
+                            "optional": false, 
+                            "description": "\uc804\uae30\uc548\uc804\uad00\ub9ac\uc790"
+                        }, 
+                        "class": "processing.core.parameters.ParameterVector"
+                    }
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.ModelerParameter"
+            }
+        }, 
+        "helpContent": {}, 
+        "group": "Standard analysis_Prep", 
+        "name": "5. \uc804\uae30\uc548\uc804\uad00\ub9ac\uc790 \uc804\ucc98\ub9ac \ubaa8\ub378", 
+        "algs": {
+            "QGISCOUNTPOINTSINPOLYGON_1": {
+                "values": {
+                    "name": "QGISCOUNTPOINTSINPOLYGON_1", 
+                    "paramsFolded": true, 
+                    "outputs": {
+                        "OUTPUT": {
+                            "values": {
+                                "description": "\uc804\uae30\uad00\ub9ac\uc790_\uc804\ucc98\ub9ac_Result", 
+                                "pos": {
+                                    "values": {
+                                        "y": 192.0, 
+                                        "x": 664.0
+                                    }, 
+                                    "class": "point"
+                                }
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ModelerOutput"
+                        }
+                    }, 
+                    "outputsFolded": true, 
+                    "pos": {
+                        "values": {
+                            "y": 147.0, 
+                            "x": 464.0
+                        }, 
+                        "class": "point"
+                    }, 
+                    "dependencies": [], 
+                    "params": {
+                        "FIELD": "\uc804\uae30\uad00\ub9ac\uc790", 
+                        "POINTS": {
+                            "values": {
+                                "name": "2"
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromInput"
+                        }, 
+                        "POLYGONS": {
+                            "values": {
+                                "name": ""
+                            }, 
+                            "class": "processing.modeler.ModelerAlgorithm.ValueFromInput"
+                        }
+                    }, 
+                    "active": true, 
+                    "consoleName": "qgis:countpointsinpolygon", 
+                    "description": "Count points in polygon"
+                }, 
+                "class": "processing.modeler.ModelerAlgorithm.Algorithm"
+            }
+        }
+    }, 
+    "class": "processing.modeler.ModelerAlgorithm.ModelerAlgorithm"
+}
