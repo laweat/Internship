@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="ebs1.css"> -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&amp;display=swap" rel="stylesheet">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="icon.png">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+    </script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link rel="stylesheet", href="{{ url_for('static', filename='css/index.css')}}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icon.png') }}">
+    <title>Keyword Analysis</title>
+    
+    <style>
+        body{
+            font-family: 'Do Hyeon', sans-serif;
+            background: ghostwhite;
+        }
+        th{
+            color: darkslategray;
+        }
+        nav{
+            
+            padding: 0px;
+        }
+    </style>
+
+</head>
+<body class="background: white;">
+    
+    <!-- 상단바 -->
+    <section class="section">
+        <nav class="navbar navbar-expand-lg navbar-light container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center" style="padding:0px">
+            <div class="container-fluid" style="padding:0px">
+                <a class="navbar-brand" href="#">분석하다 머리아플땐➪</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="https://fruit-test.netlify.app/">🍋과일상 테스트🍋</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://animal-test.netlify.app/">Mbti기반 동물테스트🐇</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-lg navbar-light container youtube-cover d-flex flex-row-reverse align-center justify-content-center mb-5" style="padding:0px">
+            <div class="container-fluid" style="padding:0px">
+                <a class="navbar-brand" href="#">직접분석하고 싶을땐➪</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/getCsV">rowData(댓글시간제외).csv</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/getCsV2">댓글시간데이터(기사제목, 댓글시간).csv</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    
+    
+    </ul>
+    <div class="container">
+        <div class="row">
+            <div class="col" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+                <h4 class="title mb-4" style="padding:0px; text-align: center; color: gray">분석키워드</h4><h3 style = "text-align: center; color: darkslategray;">{{keyword}}</h3>
+            </div>
+            <div class="col" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+                <h4 class="title mb-4" style="padding:0px; text-align: center; color: gray">수집기간</h4><h3 style = "text-align: center;color: darkslategray;">{{num}}개월</h3>
+            </div>
+            <div class="col" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+                <h4 class="title mb-4" style="padding:0px; text-align: center; color: gray">수집된 기사 수</h4><h3 style = "text-align: center;color: darkslategray;">{{articleCnt}}개</h3>
+            </div>
+            <div class="col" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+                <h4 class="title mb-4" style="padding:0px; text-align: center; color: gray">수집된 댓글 수</h4><h3 style = "text-align: center;color: darkslategray;">{{reviewCnt}}개</h3>
+            </div>
+        </div>
+      </div>
+        
+    </div>
+<!-- 맨 위에 두개 분석 결과  -->
+    <div class="mt-5 container file-upload px-5" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+            <div class="col-md">
+                <h4 class ="mt-3 youtube-cover d-flex align-center">
+                    핫이슈 기사 TOP10
+                </h4>
+                <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right" style="size: 2px; color: red;">*댓글수 기준</p>
+                <table class="table" style="color: dimgray;">
+                    <thead>
+                        <tr>
+                            <th scope="col">순위</th>
+                            <th scope="col">기사 제목</th>
+                            <th scope="col">댓글 수</th>
+                            <th scope="col">언론사</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range (newsTop10Title | length) %}
+                            <tr>
+                                <th scope="row">{{i+1}}등</th>
+                                <td><a href="{{newsTop10Link[i]}}">{{newsTop10Title[i]}}</a></td>
+                                <td>{{newsTop10reviews[i]}}개</td>
+                                <td>{{newsTop10press[i]}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>        
+    </div>
+
+<!-- 나이대별 , 성비 분석 결과  -->
+
+    <div class="mt-5 container file-upload px-5 " style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="row g-2">
+            <div class="col-md">
+                <h4 class ="container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                    성별 댓글 비율 
+                </h4>
+                <div class = "container youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                    <img src="../static/image/{{image1}}.png" width="500" height="500"/>
+                </div>
+            </div>
+            <div class="col-md">
+                <h4 class ="container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                    나이대 댓글 비율  
+                </h4>
+                <div class = "container youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                    <img src="../static/image/{{image2}}.png" width="500" height="500"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 날짜별 기사 업로드 수 -->
+    <div class="mt-5 container px-5" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+            <h4 class ="container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                날짜별 "기사" 업로드 수 
+            </h4>
+            <div class = "container youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                <img src="../static/image/{{image3}}.png" width=100% height="500"/>
+            </div>
+            <div class="d-flex flex-row-reverse align-center justify-content-center mt-3" style="display: block;margin-right: 10px;">
+                <button onclick="onDisplay()" id = "showDiv"class="btn btn-outline-secondary">{{topDateTop1}} 올라온 네이버 기사 목록 보기
+                </button>
+                <button onclick="offDisplay()" id = "noneDiv" class="btn btn-outline-secondary" style="display: none;">네이버 기사 목록 숨기기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 기사 가장 많이 달린 날 기사 목록 -->
+    <div class="mt-5 container file-upload px-5" id="noneDiv1"
+        style="display: none; padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class="mt-3 youtube-cover d-flex align-center">
+                {{topDateTop1}} 올라온 네이버 기사 목록
+            </h4>
+
+            <table class="table" style="color: dimgray;">
+                <thead>
+                    <tr>
+                        <th scope="col">제목</th>
+                        <th scope="col">댓글 수</th>
+                        <th scope="col">언론사</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range (topNewsListTitle | length) %}
+                        <tr>
+                            <td><a href="{{topNewsListLink[i]}}">{{topNewsListTitle[i]}}</a></td>
+                            <td>{{topNewsListReviewCnt[i]}}개</td>
+                            <td>{{topNewsListPress[i]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <!-- 날짜별 댓글 업로드 수 -->
+    <div class="mt-5 container px-5" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class ="container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                날짜별 "댓글" 업로드 수 
+            </h4>
+            <div class = "container youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                <img src="../static/image/{{image4}}.png" width=100% height="500"/>
+            </div>
+        </div>
+    </div>
+
+    <!-- 댓글 가장 많이 달린 날 기사 목록
+    <div class="mt-5 container file-upload px-5" id="noneDiv12"
+        style="display: none; padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class="mt-3 youtube-cover d-flex align-center">
+                {{topReviewTop1}} 올라온 네이버 기사 목록
+            </h4>
+
+            <table class="table" style="color: dimgray;">
+                <thead>
+                    <tr>
+                        <th scope="col">제목</th>
+                        <th scope="col">댓글 수</th>
+                        <th scope="col">언론사</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range (topReviewsDateListTitle | length) %}
+                        <tr>
+                            <td><a href="{{topReviewsListLink[i]}}">{{topReviewsListtTitle[i]}}</a></td>
+                            <td>{{topReviewsListCnt[i]}}개</td>
+                            <td>{{topReviewsListPress[i]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+ -->
+
+
+    <!-- 워드클라우드 형태로 쓰기 -->
+
+    <div class="mt-5 mb-5 container px-5" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="row g-2">
+            <div class="col-md">
+                <h4 class ="container mt-3 mb-5">
+                    댓글 빈도수 순위 
+                </h4>
+                <table class="table" style="color: dimgray;">
+                    <thead>
+                        <tr>
+                            <th scope="col">순위</th>
+                            <th scope="col">단어</th>
+                            <th scope="col">빈도수</th>
+                            <th scope="col">순위</th>
+                            <th scope="col">단어</th>
+                            <th scope="col">빈도수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1등</th>
+                            <td>{{rank[0][0]}}</td>
+                            <td>{{rank[0][1]}}개</td>
+                            <th scope="row">11등</th>
+                            <td>{{rank[10][0]}}</td>
+                            <td>{{rank[10][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2등</th>
+                            <td>{{rank[1][0]}}</td>
+                            <td>{{rank[1][1]}}개</td>
+                            <th scope="row">12등</th>
+                            <td>{{rank[11][0]}}</td>
+                            <td>{{rank[11][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3등</th>
+                            <td>{{rank[2][0]}}</td>
+                            <td>{{rank[2][1]}}개</td>
+                            <th scope="row">13등</th>
+                            <td>{{rank[12][0]}}</td>
+                            <td>{{rank[12][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4등</th>
+                            <td>{{rank[3][0]}}</td>
+                            <td>{{rank[3][1]}}개</td>
+                            <th scope="row">14등</th>
+                            <td>{{rank[13][0]}}</td>
+                            <td>{{rank[13][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5등</th>
+                            <td>{{rank[4][0]}}</td>
+                            <td>{{rank[4][1]}}개</td>
+                            <th scope="row">15등</th>
+                            <td>{{rank[14][0]}}</td>
+                            <td>{{rank[14][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6등</th>
+                            <td>{{rank[5][0]}}</td>
+                            <td>{{rank[5][1]}}개</td>
+                            <th scope="row">16등</th>
+                            <td>{{rank[15][0]}}</td>
+                            <td>{{rank[15][1]}}개</td>
+                        </tr>
+            
+                        <tr>
+                            <th scope="row">7등</th>
+                            <td>{{rank[6][0]}}</td>
+                            <td>{{rank[6][1]}}개</td>
+                            <th scope="row">17등</th>
+                            <td>{{rank[16][0]}}</td>
+                            <td>{{rank[16][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8등</th>
+                            <td>{{rank[7][0]}}</td>
+                            <td>{{rank[7][1]}}개</td>
+                            <th scope="row">18등</th>
+                            <td>{{rank[17][0]}}</td>
+                            <td>{{rank[17][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">9등</th>
+                            <td>{{rank[8][0]}}</td>
+                            <td>{{rank[8][1]}}개</td>
+                            <th scope="row">19등</th>
+                            <td>{{rank[18][0]}}</td>
+                            <td>{{rank[18][1]}}개</td>
+                        </tr>
+            
+                        <tr>
+                            <th scope="row">10등</th>
+                            <td>{{rank[9][0]}}</td>
+                            <td>{{rank[9][1]}}개</td>
+                            <th scope="row">20등</th>
+                            <td>{{rank[19][0]}}</td>
+                            <td>{{rank[19][1]}}개</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md ">
+                <h4 class ="container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center mb-5">
+                    댓글 빈도수 시각화(WordCloud) 
+                </h4>
+                <div class = "container youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                    <img src="../static/image/{{image5}}.png" width="500" height="500"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container card-footer text-muted">
+        ❗ NOTICE <br>
+        1. 전체뉴스중에 네이버 뉴스 기사 정보만 수집합니다 <br>
+        2. 뉴스 기사 댓글 중 성별, 나이대 정보가 없는 기사도 있습니다 <br>
+        3. 관련 없는 뉴스임에도 불구하고 분석 키워드가 제목에 들어가 같이 정보수집 되는 경우도 있습니다<br>
+        4. 수집데이터가 많으면 수집시간이 오래걸립니다(1개월~3개월 수집 추천)<br>
+        5. 최근 몇개월 입력을 잘못할경우 기본값으로 최근 1개월 기준으로 분석이 진행됩니다<br>
+        ❗ 유지보수관련 문의 및 불편사항<br>
+        💌Email = laweat@naver.com
+    </div>
+    <script>
+        function onDisplay() {
+            $("#noneDiv").show()
+            $("#noneDiv1").show()
+            $("#showDiv").hide()
+            
+        }
+
+        function offDisplay() {
+            $("#noneDiv").hide()
+            $("#noneDiv1").hide()
+            $("#showDiv").show()
+        }
+
+
+
+        function onDisplay1() {
+            $("#noneDiv2").show()
+            $("#noneDiv12").show()
+            $("#showDiv2").hide()
+            
+        }
+
+        function offDisplay1() {
+            $("#noneDiv2").hide()
+            $("#noneDiv12").hide()
+            $("#showDiv2").show()
+        }
+    </script>
+
+
+</body>
+
+</html>
