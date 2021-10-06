@@ -47,6 +47,7 @@ def main():
 @app.route('/result', methods = ['POST'])
 
 def result():
+    start = time.time()  
     if request.method == 'POST':
         filePath = 'static\image'
         for file in os.scandir(filePath):
@@ -64,31 +65,42 @@ def result():
 
         if num == 1 :
             url = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=1&photo=0&field=0&pd=2&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so:dd,p:1m,a:all&start={}'
+            num = "1개월"
         elif num == 6 :
             url = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=1&photo=0&field=0&pd=6&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so:dd,p:6m,a:all&start={}'
+            num = "6개월"
+        elif num == 7 :
+            url = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=1&photo=0&field=0&pd=1&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so:dd,p:1w,a:all&start={}'
+            num = "7일"
         elif num == 12:
             url ='https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=1&photo=0&field=0&pd=5&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so:dd,p:1y,a:all&start={}'
+            num = "1년"
         else:
             url ='https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=1&photo=0&field=0&pd=13&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so:dd,p:3m,a:all&start={}'
-        
+            num = "3개월"
 
         urlList = []
         i = 1
+        x = 1
         while True:
             try:
+                print(f"{x} Page 수집중..")
                 driver.get(url.format(keyword,i))
                 i += 10 
+                x += 1
                 newsUrls = driver.find_elements_by_link_text('네이버뉴스')
 
                 for newsUrl in newsUrls:
                     tmp = newsUrl.get_attribute('href')
                     urlList.append(tmp)
                 driver.find_element_by_xpath('//*[@id="main_pack"]/div[2]/div/a[2]').click()
-                time.sleep(1) #2초에서 1초로 수정
+                time.sleep(0.5) #2초에서 1초로 수정
             
             except:
                 break
         driver.quit()
+
+        print("==========url수집 완료==========")
 
         urlDf = pd.DataFrame({"url":urlList})
 
@@ -99,7 +111,7 @@ def result():
             print(f"진행상황: {i+1} / {len(urlDf)}") #진행도 확인차
             driver = webdriver.Chrome("chromedriver", options=options)
             driver.get(urlDf["url"][i])
-            # time.sleep(2)
+            time.sleep(0.5)
             
             #제목담기
             try:
@@ -316,7 +328,7 @@ def result():
         newsDataPrivacySum = newsDataPrivacy.sum() 
 
         def gender():
-            labels = ["남자","여자"]
+            labels = ["MEN","WOMEN"]
             fig = plt.figure(figsize=(5,5)) 
             fig.set_facecolor('white')
             explode = [0.01, 0.01]
@@ -398,11 +410,21 @@ def result():
         newsByDateSum = dateData['제목'].groupby(dateData["날짜"]).count()
         topDate = newsByDateSum.sort_values(ascending = False)
         topDate = pd.DataFrame(topDate)
-        topDateTop1 =  topDate["제목"].keys()[0]
-
+        topDateTop1 = []
         topNewsList = []
+        check = topDate["제목"][0]
+        topDateTop1.append(topDate["제목"].keys()[0])
+
+        tmp = 1
+        while True:
+            if topDate["제목"][tmp] == check:
+                topDateTop1.append(topDate["제목"].keys()[tmp])
+                tmp += 1
+            else:
+                break
+
         for i in range(len(dateData)):
-            if dateData["날짜"][i] == topDateTop1 :
+            if dateData["날짜"][i] in topDateTop1:
                 topNews = pd.DataFrame({
                     "제목":dateData["제목"][i],
                     "댓글수":dateData["댓글 수"][i],
@@ -413,12 +435,14 @@ def result():
                 topNewsList.append(topNews)
                 
         topNewsList = pd.concat(topNewsList)
+        topNewsList = topNewsList.sort_values(by=['날짜'], axis=0)
         topNewsList = topNewsList.reset_index(drop=True)
 
         topNewsListTitle = topNewsList["제목"]
         topNewsListReviewCnt = topNewsList["댓글수"]
         topNewsListPress = topNewsList["언론사"]
         topNewsListLink = topNewsList["링크"]
+        topNewsListDate = topNewsList["날짜"]
 
 
         #댓글 워드클라우드 진행
@@ -470,6 +494,7 @@ def result():
 
         #빈도수 순위 
         rank = sorted(result.items(),reverse=True,key=lambda item: item[1])
+        print("time :", time.time() - start)
 
     return render_template("result.html",
                             keyword = keyword,
@@ -487,6 +512,7 @@ def result():
                             topDateTop1 = topDateTop1, #날짜 
                             topNewsListReviewCnt = topNewsListReviewCnt, #댓글수
                             topNewsListPress = topNewsListPress, #언론사
+                            topNewsListDate = topNewsListDate, #기사 날짜
 
                             image1=a,
                             image2=b,
