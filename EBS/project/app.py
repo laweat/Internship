@@ -155,13 +155,17 @@ def result():
             
             #댓글담기
             try: 
-                review = []      
-                contents = driver.find_elements_by_css_selector('span.u_cbox_contents')
-                for content in contents:
-                    review.append(content.text)
+                review = []
+                x = 1
+                while True:
+                    try:
+                        review.append(driver.find_element_by_xpath(f'//*[@id="cbox_module_wai_u_cbox_content_wrap_tabpanel"]/ul/li[{x}]/div[1]/div/div[2]/span[1]').text)
+                        x += 1
+                    except:
+                        break
 
                 #문자열로 변환
-                review = " ".join(review)
+                reviews = " ".join(review)
                 
                 #댓글시간 리스트형태로 담기
                 times = []      
@@ -207,7 +211,7 @@ def result():
             df = pd.DataFrame({
                 "제목":title,
                 "본문":text,
-                "댓글":review,
+                "댓글":reviews,
                 "댓글 수":reviewCnt,
                 "언론사":press,
                 "남자":man,
@@ -225,6 +229,7 @@ def result():
             for x in range(len(times)):
                 timeDf = pd.DataFrame({
                     "제목":title,
+                    "댓글":review[x],
                     "댓글시간":times[x]
                 },index = [i])
                 dfList1.append(timeDf)
@@ -252,6 +257,7 @@ def result():
 
         newsData = pd.read_csv(f"static/file/뉴스기사데이터수집.csv")
         reviewsData = pd.read_csv(f"static/file/관련뉴스댓글데이터수집.csv")
+        
 
         #결측값 있으면 제거
         newsData = newsData.dropna()
@@ -496,6 +502,69 @@ def result():
         rank = sorted(result.items(),reverse=True,key=lambda item: item[1])
         print("time :", time.time() - start)
 
+        #주차별 빈도수 비교
+        onlyweek = pd.read_csv(f"static/file/관련뉴스댓글데이터수집.csv")   
+        onlyweek["댓글시간"] = pd.to_datetime(onlyweek["댓글시간"])
+        onlyweek["주차"] = onlyweek.댓글시간.dt.week
+        cancel = onlyweek["댓글"].isna().groupby(onlyweek['주차']).sum()
+        cancel = pd.DataFrame(cancel)
+        onlyweek = onlyweek.dropna()
+        tmpTable = onlyweek["댓글"].groupby(onlyweek['주차']).sum()
+        tmpTable = pd.DataFrame(tmpTable)
+        tmpTable["삭제된댓글"] = cancel.values
+
+        tmpTable["댓글"] = tmpTable["댓글"].apply(lambda x: re.sub("[^가-힣\s]","",str(x)))
+
+        word_extractor = WordExtractor(min_frequency=100,
+            min_cohesion_forward=0.05, 
+            min_right_branching_entropy=0.0
+        )
+        word_extractor.train(tmpTable["댓글"].values)
+        words = word_extractor.extract()
+
+        cohesion_score = {word:score.cohesion_forward for word, score in words.items()}
+        tokenizer = LTokenizer(scores=cohesion_score)
+                
+        tmpTable["tokenizer"] = tmpTable["댓글"].apply(lambda x: tokenizer.tokenize(x, remove_r=True))
+
+        fileName = open('stopWordTxt.txt','r',encoding="utf-8")
+
+        stopWordList = []
+        for line in fileName.readlines():
+            stopWordList.append(line.rstrip())
+        fileName.close()
+
+        i = 0
+        for i in range(len(tmpTable)):
+            word = []
+            words = []
+            for word in tmpTable["tokenizer"].values[i]: 
+                if word not in stopWordList: 
+                    words.append(word) 
+            tmpTable["tokenizer"].values[i] = words
+            i += 1
+                
+        i = 0
+        ranks = []
+        for i in range(len(tmpTable)):
+            cnt = Counter(tmpTable["tokenizer"].values[i])
+            result = dict(cnt)
+
+            weekrank = sorted(result.items(),reverse=True,key=lambda item: item[1])
+            weekrank = weekrank[:10]
+            ranks.append(weekrank)
+
+        tmpTable["빈도수"] = ranks
+        week = tmpTable.index
+        tmpTable = tmpTable.reset_index(drop=True)
+        finalweek = tmpTable[["빈도수","삭제된댓글"]]
+        finalweek["주차"] = week
+
+        varWeek = finalweek["주차"]
+        varCnt = finalweek["빈도수"]
+        varDel = finalweek["삭제된댓글"]
+
+
     return render_template("result.html",
                             keyword = keyword,
                             num = num,
@@ -519,7 +588,13 @@ def result():
                             image3=c,
                             image4=d,
                             image5=e,
-                            rank = rank
+                            rank = rank,
+
+                            #주차별 변수
+                            finalweek = finalweek,
+                            varWeek = varWeek,
+                            varCnt = varCnt,
+                            varDel = varDel
                             )
 
 #####파일 다운로드 
