@@ -46,6 +46,11 @@
     border-top: 2px solid rgb(37, 37, 37); 
 }
 
+.hov1:hover{
+    color:#0066ff
+}
+
+
 @media(max-width:720px){
     .subtitle {
         font-size: 18px;

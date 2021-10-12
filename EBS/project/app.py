@@ -63,18 +63,21 @@ def result():
         driver = webdriver.Chrome("chromedriver", options=options)
         print("-------------시작--------------")
 
+        # if num == 1 :
+        #     url = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=1&photo=0&field=0&pd=4&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so:dd,p:1d,a:all&start={}'
+        #     num = '1일'
         if num == 1 :
             url = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=1&photo=0&field=0&pd=2&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so:dd,p:1m,a:all&start={}'
-            num = "1개월"
+            num = '1개월'
         elif num == 6 :
             url = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=1&photo=0&field=0&pd=6&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so:dd,p:6m,a:all&start={}'
-            num = "6개월"
+            num = '6개월'
         elif num == 7 :
             url = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=1&photo=0&field=0&pd=1&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so:dd,p:1w,a:all&start={}'
-            num = "7일"
+            num = '7일'
         elif num == 12:
             url ='https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=1&photo=0&field=0&pd=5&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so:dd,p:1y,a:all&start={}'
-            num = "1년"
+            num = '1년'
         else:
             url ='https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=1&photo=0&field=0&pd=13&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so:dd,p:3m,a:all&start={}'
             num = "3개월"
@@ -173,6 +176,17 @@ def result():
                 for reviewTime in reviewTimes:
                     times.append(reviewTime.text)
 
+                #댓글 좋아요 싫어요 
+                likes = []
+                hates = []
+                for x in range(1,len(review)+1):
+                    try:
+                        likes.append(driver.find_element_by_xpath(f'//*[@id="cbox_module_wai_u_cbox_content_wrap_tabpanel"]/ul/li[{x}]/div[1]/div/div[4]/div/a[1]/em').text)
+                        hates.append(driver.find_element_by_xpath(f'//*[@id="cbox_module_wai_u_cbox_content_wrap_tabpanel"]/ul/li[{x}]/div[1]/div/div[4]/div/a[2]/em').text)
+                    except:
+                        likes.append("0")
+                        hates.append("0")
+
                 #댓글수
                 reviewCnt = driver.find_element_by_xpath('//*[@id="cbox_module"]/div[2]/div[2]/ul/li[1]/span').text
 
@@ -230,7 +244,10 @@ def result():
                 timeDf = pd.DataFrame({
                     "제목":title,
                     "댓글":review[x],
-                    "댓글시간":times[x]
+                    "좋아요":likes[x],
+                    "싫어요":hates[x],
+                    "댓글시간":times[x],
+                    "링크":urlLink
                 },index = [i])
                 dfList1.append(timeDf)
             x = 0
@@ -450,6 +467,30 @@ def result():
         topNewsListLink = topNewsList["링크"]
         topNewsListDate = topNewsList["날짜"]
 
+        #좋아요 싫어요 분석
+        lhTable = reviewsData[["제목","댓글","좋아요","싫어요","링크"]]
+        lhTable["합계"] = lhTable.sum(axis=1).astype(int)
+        lhTable = lhTable.sort_values(by="합계",ascending=False).reset_index(drop=True)
+        lhTableTotal = lhTable[:40] 
+        lhTableTotalReview = lhTableTotal["댓글"]
+        lhTableTotalLike = lhTableTotal["좋아요"]
+        lhTableTotalHate = lhTableTotal["싫어요"]
+        lhTableTotalRink = lhTableTotal["링크"]
+
+        lhTable = lhTable.sort_values(by="좋아요",ascending=False).reset_index(drop=True)
+        lhTableLike = lhTable[:40] 
+        lhTableLikeReview = lhTableLike["댓글"]
+        lhTableLikeLike = lhTableLike["좋아요"]
+        lhTableLikeHate = lhTableLike["싫어요"]
+        lhTableLikeRink = lhTableLike["링크"]
+
+        lhTable = lhTable.sort_values(by="싫어요",ascending=False).reset_index(drop=True)
+        lhTableHate = lhTable[:40]
+        lhTableHateReview = lhTableHate["댓글"]
+        lhTableHateLike = lhTableHate["좋아요"]
+        lhTableHateHate = lhTableHate["싫어요"]
+        lhTableHateRink = lhTableHate["링크"] 
+
 
         #댓글 워드클라우드 진행
         newsDataWord = newsData["댓글"] 
@@ -594,7 +635,24 @@ def result():
                             finalweek = finalweek,
                             varWeek = varWeek,
                             varCnt = varCnt,
-                            varDel = varDel
+                            varDel = varDel,
+
+                            #좋아요 싫어요
+                            lhTableTotalReview = lhTableTotalReview,
+                            lhTableTotalLike = lhTableTotalLike,
+                            lhTableTotalHate = lhTableTotalHate,
+                            lhTableTotalRink= lhTableTotalRink,
+
+                            lhTableLikeReview=lhTableLikeReview,
+                            lhTableLikeLike= lhTableLikeLike,
+                            lhTableLikeHate=lhTableLikeHate,
+                            lhTableLikeRink=lhTableLikeRink,
+
+                            lhTableHateReview=lhTableHateReview,
+                            lhTableHateLike=lhTableHateLike,
+                            lhTableHateHate=lhTableHateHate,
+                            lhTableHateRink=lhTableHateRink
+
                             )
 
 #####파일 다운로드 
@@ -621,6 +679,7 @@ def getPlotCSV2():
 
 if __name__ == '__main__':
     app.run()
+
 
 
 

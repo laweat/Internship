@@ -36,6 +36,9 @@
             
             padding: 0px;
         }
+        a:hover{
+            color: #0066ff;
+        }
     </style>
 
 </head>
@@ -115,7 +118,7 @@
                     핫이슈 기사 TOP10
                 </h4>
                 <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right" style="size: 2px; color: red;">*댓글수 기준</p>
-                <table class="table" style="color: dimgray;">
+                <table class="table table-hover" style="color: dimgray;">
                     <thead>
                         <tr>
                             <th scope="col">순위</th>
@@ -138,6 +141,212 @@
             </div>        
     </div>
 
+    <!-- 좋아요 싫어요 분석 -->
+
+    <div class="mt-5 container file-upload px-5" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class ="mt-3 youtube-cover d-flex align-center">
+                핫이슈 댓글 TOP10
+            </h4>
+            <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right" style="size: 2px; color: red;">*좋아요+싫어요 합 기준(댓글 클릭시 관련 기사로 이동)</p>
+            <table class="table table-hover" style="color: dimgray;">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">댓글</th>
+                        <th scope="col">like</th>
+                        <th scope="col">hate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td><a href="{{lhTableTotalRink[0]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[0]}}</a></td>
+                        <td>{{lhTableTotalLike[0]}}</td>
+                        <td>{{lhTableTotalHate[0]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td><a href="{{lhTableTotalRink[1]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[1]}}</a></td>
+                        <td>{{lhTableTotalLike[1]}}</td>
+                        <td>{{lhTableTotalHate[1]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td><a href="{{lhTableTotalRink[2]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[2]}}</a></td>
+                        <td>{{lhTableTotalLike[2]}}</td>
+                        <td>{{lhTableTotalHate[2]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td><a href="{{lhTableTotalRink[3]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[3]}}</a></td>
+                        <td>{{lhTableTotalLike[3]}}</td>
+                        <td>{{lhTableTotalHate[3]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td><a href="{{lhTableTotalRink[4]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[4]}}</a></td>
+                        <td>{{lhTableTotalLike[4]}}</td>
+                        <td>{{lhTableTotalHate[4]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">6</th>
+                        <td><a href="{{lhTableTotalRink[5]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[5]}}</a></td>
+                        <td>{{lhTableTotalLike[5]}}</td>
+                        <td>{{lhTableTotalHate[5]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">7</th>
+                        <td><a href="{{lhTableTotalRink[6]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[6]}}</a></td>
+                        <td>{{lhTableTotalLike[6]}}</td>
+                        <td>{{lhTableTotalHate[6]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">8</th>
+                        <td><a href="{{lhTableTotalRink[7]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[7]}}</a></td>
+                        <td>{{lhTableTotalLike[7]}}</td>
+                        <td>{{lhTableTotalHate[7]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">9</th>
+                        <td><a href="{{lhTableTotalRink[8]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[8]}}</a></td>
+                        <td>{{lhTableTotalLike[8]}}</td>
+                        <td>{{lhTableTotalHate[8]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">10</th>
+                        <td><a href="{{lhTableTotalRink[9]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[9]}}</a></td>
+                        <td>{{lhTableTotalLike[9]}}</td>
+                        <td>{{lhTableTotalHate[9]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="col-md">
+                <div class="flex-row-reverse align-center justify-content-center mt-3" style="text-align: center ;display: block;margin-right: 10px;">
+                    <button onclick="onDisplayReview()" id = "showReview"class="btn btn-outline-secondary">핫이슈 댓글 더보기
+                    </button>
+                    <button onclick="offDisplayReview()" id = "noneReview" class="btn btn-outline-secondary" style="display: none;">핫이슈 댓글 숨기기
+                    </button>
+
+                    <button onclick="onDisplayLike()" id = "showLike"class="btn btn-outline-secondary">좋아요 순으로 보기
+                    </button>
+                    <button onclick="offDisplayLike()" id = "noneLike" class="btn btn-outline-secondary" style="display: none;">좋아요 순 숨기기
+                    </button>
+
+                    <button onclick="onDisplayHate()" id = "showHate"class="btn btn-outline-secondary">싫어요 순으로 보기
+                    </button>
+                    <button onclick="offDisplayHate()" id = "noneHate" class="btn btn-outline-secondary" style="display: none;">싫어요 순 숨기기
+                    </button>
+                </div>
+            </div>
+            
+        </div>        
+    </div>
+
+    
+    <div id="top40" class="mt-5 container file-upload px-5" style="display: none; padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class ="mt-3 youtube-cover d-flex align-center">
+                핫이슈 댓글 TOP40
+            </h4>
+            <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right" style="size: 2px; color: red;">*좋아요+싫어요 합 기준(댓글 클릭시 관련 기사로 이동)</p>
+            <table class="table table-hover" style="color: dimgray;">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">댓글</th>
+                        <th scope="col">like</th>
+                        <th scope="col">hate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(lhTableTotalReview | length) %}
+                        <tr>
+                            <th scope="row">{{i+1}}</th>
+                            <td><a href="{{lhTableTotalRink[i]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[i]}}</a></td>
+                            <td>{{lhTableTotalLike[i]}}</td>
+                            <td>{{lhTableTotalHate[i]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="flex-row-reverse align-center justify-content-center mt-3" style="text-align: center ;display: block;margin-right: 10px;">
+                <button onclick="offDisplayReview()" id = "noneReview" class="btn btn-outline-secondary">핫이슈 댓글 숨기기
+                </button>
+            </div>
+        </div>        
+    </div>
+
+    <div id="like40" class="mt-5 container file-upload px-5" style="display: none; padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class ="mt-3 youtube-cover d-flex align-center">
+                좋아요 순 댓글순위
+            </h4>
+            <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right" style="size: 2px; color: red;">*like 기준(댓글 클릭시 관련 기사로 이동)</p>
+            <table class="table table-hover" style="color: dimgray;">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">댓글</th>
+                        <th scope="col">like</th>
+                        <th scope="col">hate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(lhTableLikeReview | length) %}
+                        <tr>
+                            <th scope="row">{{i+1}}</th>
+                            <td><a href="{{lhTableLikeRink[i]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableLikeReview[i]}}</a></td>
+                            <td>{{lhTableLikeLike[i]}}</td>
+                            <td>{{lhTableLikeHate[i]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="flex-row-reverse align-center justify-content-center mt-3" style="text-align: center ;display: block;margin-right: 10px;">    
+                <button onclick="offDisplayLike()" id = "noneLike" class="btn btn-outline-secondary">좋아요 순 숨기기
+                </button>
+            </div>
+        </div>        
+    </div>
+
+
+    <div id="hate40" class="mt-5 container file-upload px-5" style="display: none; padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class ="mt-3 youtube-cover d-flex align-center">
+                싫어요 순 댓글순위
+            </h4>
+            <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right" style="size: 2px; color: red;">*hate 기준(댓글 클릭시 관련 기사로 이동)</p>
+            <table class="table table-hover" style="color: dimgray;">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">댓글</th>
+                        <th scope="col">like</th>
+                        <th scope="col">hate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(lhTableHateReview | length) %}
+                        <tr>
+                            <th scope="row">{{i+1}}</th>
+                            <td><a href="{{lhTableHateRink[i]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableHateReview[i]}}</a></td>
+                            <td>{{lhTableHateLike[i]}}</td>
+                            <td>{{lhTableHateHate[i]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="flex-row-reverse align-center justify-content-center mt-3" style="text-align: center ;display: block;margin-right: 10px;">       
+                <button onclick="offDisplayHate()" id = "noneHate" class="btn btn-outline-secondary">싫어요 순 숨기기
+                </button>
+            </div>
+        </div>        
+    </div>
+
+
+
 <!-- 나이대별 , 성비 분석 결과  -->
 
     <div class="mt-5 container file-upload px-5 " style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
@@ -152,7 +361,7 @@
             </div>
             <div class="col-md">
                 <h4 class ="container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center">
-                    나이대 댓글 비율  
+                    나이대 댓글 비율
                 </h4>
                 <div class = "container youtube-cover d-flex flex-row-reverse align-center justify-content-center">
                     <img src="../static/image/{{image2}}.png" width="500" height="500"/>
@@ -265,7 +474,7 @@
                 <h4 class ="container mt-3 mb-5">
                     댓글 빈도수 순위 
                 </h4>
-                <table class="table" style="color: dimgray;">
+                <table class="table table-hover" style="color: dimgray;">
                     <thead>
                         <tr>
                             <th scope="col">순위</th>
@@ -393,7 +602,7 @@
                 <h4 class ="container mt-3 mb-5">
                     댓글 빈도수 순위 
                 </h4>
-                <table class="table" style="color: dimgray;">
+                <table class="table table-hover" style="color: dimgray;">
                     <thead>
                         <tr>
                             <th scope="col">순위</th>
@@ -580,7 +789,7 @@
             </h4>
             <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right"
                 style="size: 2px; color: red;">*삭제된 댓글은 악성댓글로 삭제된 댓글 수입니다. </p>
-            <table class="table" style="color: dimgray;">
+            <table class="table table-hover" style="color: dimgray;">
                 <thead>
                     <tr>
                         <th scope="col">주차</th>
@@ -669,6 +878,43 @@
             $("#noneDiv3").hide()
             $("#noneDiv13").hide()
             $("#showDiv3").show()
+        }
+
+        
+        // 댓글순위 더보기
+        function onDisplayReview() {
+            $("#top40").show()
+            $("#noneReview").show()
+            $("#showReview").hide()
+        }
+        function offDisplayReview() {
+            $("#top40").hide()
+            $("#noneReview").hide()
+            $("#showReview").show()
+        }
+
+        // 좋아요 함수
+        function onDisplayLike() {
+            $("#like40").show()
+            $("#noneLike").show()
+            $("#showLike").hide()
+        }
+        function offDisplayLike() {
+            $("#like40").hide()
+            $("#noneLike").hide()
+            $("#showLike").show()
+        }
+
+        // 싫어요 함수
+        function onDisplayHate() {
+            $("#hate40").show()
+            $("#noneHate").show()
+            $("#showHate").hide()
+        }
+        function offDisplayHate() {
+            $("#hate40").hide()
+            $("#noneHate").hide()
+            $("#showHate").show()
         }
         
     </script>
