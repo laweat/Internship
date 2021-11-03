@@ -1,82 +1,82 @@
-/* ========= ½Ç½À4 ========= */
+/* ========= ì‹¤ìŠµ4 ========= */
 
---equi join ½Ç½À
+--equi join ì‹¤ìŠµ
 
---»ç¿øÅ×ÀÌºí, Á¶Á÷Å×ÀÌºí Á¶ÀÎ
+--ì‚¬ì›í…Œì´ë¸”, ì¡°ì§í…Œì´ë¸” ì¡°ì¸
 select tb_emp.emp_name, tb_emp.org_cd, tb_org.org_cd, tb_org.org_name
 from tb_emp, tb_org
 where tb_emp.org_cd = tb_org.org_cd;
 
---»ç¿øÀÌ¸§, ºÎ¼­ÄÚµå, ºÎ¼­¸í, Á÷Ã¥ Ãâ·Â
+--ì‚¬ì›ì´ë¦„, ë¶€ì„œì½”ë“œ, ë¶€ì„œëª…, ì§ì±… ì¶œë ¥
 select a.emp_no, a.emp_name, a.org_cd, b.org_name, a.position
 from tb_emp a, tb_org b 
 where a.org_cd = b.org_cd;
 
---Alias »ç¿ë
+--Alias ì‚¬ìš©
 select a.emp_no ,a.emp_name ,a.org_cd ,b.org_name ,a.position
 from tb_emp as a, tb_org as b 
-where a.org_cd = b.org_cd and a.position = 'ÆÀÀå'
+where a.org_cd = b.org_cd and a.position = 'íŒ€ì¥'
 order by b.org_name;
 
---°èÁÂ¹øÈ£, °í°´¸í, »óÇ°¸í, °è¾à±İ¾×, °ü¸®ÀÚ¸í Ãâ·Â
+--ê³„ì¢Œë²ˆí˜¸, ê³ ê°ëª…, ìƒí’ˆëª…, ê³„ì•½ê¸ˆì•¡, ê´€ë¦¬ìëª… ì¶œë ¥
 select a.accno , c.cust_name ,p.prod_name ,a.cont_amt ,e.emp_name 
 from tb_accnt a, tb_cust c, tb_prod p, tb_emp e 
 where a.cust_no = c.cust_no 
 	and a.prod_cd =p.prod_cd 
 	and a.manager = e.emp_no;
 
---»ç¿øº° ±Ş¿©¿Í ¾î´À µî±Ş¿¡ ¼ÓÇÏ´ÂÁö ¿ä±¸»çÇ×¿¡ ´ëÇÑ non equi join
-select e.emp_name  »ç¿ø¸í, e.salary ¿¬ºÀ, s.grade ±Ş¿©µî±Ş
+--ì‚¬ì›ë³„ ê¸‰ì—¬ì™€ ì–´ëŠ ë“±ê¸‰ì— ì†í•˜ëŠ”ì§€ ìš”êµ¬ì‚¬í•­ì— ëŒ€í•œ non equi join
+select e.emp_name  ì‚¬ì›ëª…, e.salary ì—°ë´‰, s.grade ê¸‰ì—¬ë“±ê¸‰
 from tb_emp e, tb_grade s 
 where e.salary 
 	between s.low_sal and s.high_sal;
 	
---[¿¹Á¦] »ç¿ø¹øÈ£¿Í »ç¿øÀÌ¸§ ¼ö¼ÓºÎ¼­ ÄÚµå¿Í ¼Ò¼ÓºÎ¼­ ÀÌ¸§ Ã£±â
---where Àı join 
+--[ì˜ˆì œ] ì‚¬ì›ë²ˆí˜¸ì™€ ì‚¬ì›ì´ë¦„ ìˆ˜ì†ë¶€ì„œ ì½”ë“œì™€ ì†Œì†ë¶€ì„œ ì´ë¦„ ì°¾ê¸°
+--where ì ˆ join 
 select emp.emp_no ,emp.emp_name ,org.org_name 
 from tb_emp emp, tb_org org
 where emp.org_cd = org.org_cd 
 
---from Àı join Á¶°Ç
+--from ì ˆ join ì¡°ê±´
 select emp.emp_no ,emp.emp_name ,org.org_name 
 from tb_emp emp inner join tb_org org on emp.org_cd = org.org_cd 
 
---Inner Å°¿öµå »ı·«
+--Inner í‚¤ì›Œë“œ ìƒëµ
 select emp.emp_no ,emp.emp_name ,org.org_name 
 from tb_emp emp join tb_org org on emp.org_cd = org.org_cd;
 
---from Àı¿¡ join Á¶°Ç
+--from ì ˆì— join ì¡°ê±´
 
---[¿¹Á¦] °èÁÂÅ×ÀÌºí¿¡¼­ °èÁÂ¹øÈ£, °í°´¹ø¤©È£, °í°´¸íÀ» °í°´Å×ÀÌºí°ú Á¶ÀÎÇÏ¿© Ã£¾Æº»´Ù.
+--[ì˜ˆì œ] ê³„ì¢Œí…Œì´ë¸”ì—ì„œ ê³„ì¢Œë²ˆí˜¸, ê³ ê°ë²ˆã„¹í˜¸, ê³ ê°ëª…ì„ ê³ ê°í…Œì´ë¸”ê³¼ ì¡°ì¸í•˜ì—¬ ì°¾ì•„ë³¸ë‹¤.
 select acc.accno ,acc.cust_no ,cust.cust_name 
 from tb_accnt acc
 	inner join tb_cust cust
 	on cust.cust_no = acc.cust_no ;
 	
---[¿¹Á¦] Á¶Á÷ÄÚµå 10ÀÎ ºÎ¼­ÀÇ ¼Ò¼Ó »ç¿ø ÀÌ¸§ ¹× ¼Ò¼Ó ºÎ¼­ ÄÚµå, ºÎ¼­ÄÚµå, ºÎ¼­ÀÌ¸§ Ã£±â
+--[ì˜ˆì œ] ì¡°ì§ì½”ë“œ 10ì¸ ë¶€ì„œì˜ ì†Œì† ì‚¬ì› ì´ë¦„ ë° ì†Œì† ë¶€ì„œ ì½”ë“œ, ë¶€ì„œì½”ë“œ, ë¶€ì„œì´ë¦„ ì°¾ê¸°
 select e.emp_name ,e.org_cd ,o.org_cd ,o.org_name 
 from tb_emp e 
 	join tb_org o
 	on e.org_cd = o.org_cd 
 where e.org_cd = '10'
 
---whereÀı Á¶ÀÎÁ¶°Ç
-select a.accno °èÁÂ¹øÈ£, c.cust_name °í°´¸í, p.prod_name »óÇ°¸í,
-		a.cont_amt °è¾à±İ¾×, e.emp_name ´ã´çÀÚ¸í
+--whereì ˆ ì¡°ì¸ì¡°ê±´
+select a.accno ê³„ì¢Œë²ˆí˜¸, c.cust_name ê³ ê°ëª…, p.prod_name ìƒí’ˆëª…,
+		a.cont_amt ê³„ì•½ê¸ˆì•¡, e.emp_name ë‹´ë‹¹ìëª…
 from tb_accnt a, tb_cust c, tb_prod p, tb_emp e 
 where a.cust_no =c.cust_no 
 	and a.prod_cd = p.prod_cd 
 	and a.manager = e.emp_no;
 
---onÀı Á¶ÀÎÁ¶°Ç
-select a.accno °èÁÂ¹øÈ£, c.cust_name °í°´¸í, p.prod_name »óÇ°¸í,
-		a.cont_amt °è¾à±İ¾×, e.emp_name ´ã´çÀÚ¸í
+--onì ˆ ì¡°ì¸ì¡°ê±´
+select a.accno ê³„ì¢Œë²ˆí˜¸, c.cust_name ê³ ê°ëª…, p.prod_name ìƒí’ˆëª…,
+		a.cont_amt ê³„ì•½ê¸ˆì•¡, e.emp_name ë‹´ë‹¹ìëª…
 from tb_accnt a 
 	inner join tb_cust c on a.cust_no = c.cust_no 
 	inner join tb_prod p on a.prod_cd = p.prod_cd 
 	inner join tb_emp e on a.manager = e.emp_no ;
 
---cross Á¶ÀÎ
+--cross ì¡°ì¸
 select count(emp_name)
 from tb_emp;
 
@@ -94,21 +94,21 @@ from tb_emp e
 
 --left outer join
 
---[¿¹Á¦] Á÷¿øÁß¿¡ ¾ÆÁ÷ ºÎ¼­¹èÁ¤ÀÌ ¾ÈµÈ »ç¿øµµ ÀÖ´Ù. »ç¿ø(TB_EMP)°ú Á¶Á÷(TB_ORG)À» JOINÇÏµÇ ºÎ¼­¹èÁ¤ÀÌ¾ÈµÈ »ç¿øÀÇ Á¤º¸µµ °°ÀÌ Ãâ·ÂÇÏµµ·Ï ÇÑ´Ù.
+--[ì˜ˆì œ] ì§ì›ì¤‘ì— ì•„ì§ ë¶€ì„œë°°ì •ì´ ì•ˆëœ ì‚¬ì›ë„ ìˆë‹¤. ì‚¬ì›(TB_EMP)ê³¼ ì¡°ì§(TB_ORG)ì„ JOINí•˜ë˜ ë¶€ì„œë°°ì •ì´ì•ˆëœ ì‚¬ì›ì˜ ì •ë³´ë„ ê°™ì´ ì¶œë ¥í•˜ë„ë¡ í•œë‹¤.
 
-select e.emp_no »ç¹ø, e.emp_name »ç¿ø¸í, e.position Á÷Ã¥, o.org_name ºÎ¼­¸í
+select e.emp_no ì‚¬ë²ˆ, e.emp_name ì‚¬ì›ëª…, e.position ì§ì±…, o.org_name ë¶€ì„œëª…
 from tb_emp e 
 	left outer join tb_org o 
 	on e.org_cd = o.org_cd 
-where e.position = '»ç¿ø'
+where e.position = 'ì‚¬ì›'
 
 
 --right outer join 
-select e.emp_no »ç¹ø, e.emp_name »ç¿ø¸í, e.position Á÷Ã¥, o.org_name ºÎ¼­¸í
+select e.emp_no ì‚¬ë²ˆ, e.emp_name ì‚¬ì›ëª…, e.position ì§ì±…, o.org_name ë¶€ì„œëª…
 from tb_org o 
 	right outer join tb_emp e 
 	on e.org_cd = o.org_cd 
-where e.position = '»ç¿ø'
+where e.position = 'ì‚¬ì›'
 
 --full outer join 
 select a.org_cd ,a.org_name ,b.org_cd ,b.org_name 
