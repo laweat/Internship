@@ -1,25 +1,25 @@
-/* ========= ½Ç½À2 ========= */
+/* ========= ì‹¤ìŠµ2 ========= */
 
---ÁÖ¼ö ±¸ÇÏ±â
+--ì£¼ìˆ˜ êµ¬í•˜ê¸°
 select emp_name, to_char((current_timestamp - ent_date),'w') as WEEKS 
 from tb_emp
 where org_cd = '10';
 
---to_char ±¸¹®
+--to_char êµ¬ë¬¸
 select emp_name ,ent_date ,
-		to_char(ent_date,'yyyy') ÀÔ»ç³â,
-		to_char(ent_date,'MM') ÀÔ»ç¿ù,
-		to_char(ent_date,'DD') ÀÔ»çÀÏ 
+		to_char(ent_date,'yyyy') ì…ì‚¬ë…„,
+		to_char(ent_date,'MM') ì…ì‚¬ì›”,
+		to_char(ent_date,'DD') ì…ì‚¬ì¼ 
 from tb_emp;
 
---º¯È¯ÇÔ¼ö(¸í½ÃÀû µ¥ÀÌÅÍ À¯Çü º¯È¯)
+--ë³€í™˜í•¨ìˆ˜(ëª…ì‹œì  ë°ì´í„° ìœ í˜• ë³€í™˜)
 select to_date('05 Dec 2000', 'DD Mon YYYY');
 
 select to_number('12,454.8-','99G999D9S');
 
 select to_timestamp('05 Dec 2000', 'DD Mon YYYY');
 
---Case º¯È¯ÇÔ¼ö
+--Case ë³€í™˜í•¨ìˆ˜
 select CAST(123.4 AS VARCHAR(10))
 	, CAST('123.5' AS NUMERIC)
 	, CAST(1234.5678 AS DEC(6,2))
@@ -30,7 +30,7 @@ select CAST(123.4 AS VARCHAR(10))
 	, TO_DATE('2014/03/01 21:30:18','YYYY/MM/DD HH24:MI:SS')
 	, TO_TIMESTAMP('2014/03/01 21:30:18','YYYY/MM/DD HH24:MI:SS');
 
---case Ç¥Çö ¿¹Á¦
+--case í‘œí˜„ ì˜ˆì œ
 select emp_name,
 	case when salary > 50000000
 	then salary 
@@ -40,11 +40,11 @@ from tb_emp;
 
 select org_name,
 	case org_name
-		when '¿µ¾÷1ÆÀ' then 'Áö»ç'
-		when '¿µ¾÷2ÆÀ' then 'Áö»ç'
-		when '¿µ¾÷3ÆÀ' then 'Áö»ç'
-		when '°æ¿µ°ü¸®ÆÀ' then 'º»»ç'
-		else 'ÁöÁ¡'
+		when 'ì˜ì—…1íŒ€' then 'ì§€ì‚¬'
+		when 'ì˜ì—…2íŒ€' then 'ì§€ì‚¬'
+		when 'ì˜ì—…3íŒ€' then 'ì§€ì‚¬'
+		when 'ê²½ì˜ê´€ë¦¬íŒ€' then 'ë³¸ì‚¬'
+		else 'ì§€ì '
 	end as AREA
 from tb_org;
 
@@ -56,7 +56,7 @@ select emp_name,
 	end as Salary_grade
 from tb_emp
 
---ÁßÃ¸ case¹®
+--ì¤‘ì²© caseë¬¸
 select emp_name, salary,
 	case 
 		when salary  >= 50000000 then 20000000
@@ -67,28 +67,28 @@ select emp_name, salary,
 	end as Bonus
 from tb_emp;
 
---null °ü·Ã ÇÔ¼ö
+--null ê´€ë ¨ í•¨ìˆ˜
 
---coalesce ÇÔ¼ö
-select emp_name, position,coalesce(position,'¾øÀ½')
+--coalesce í•¨ìˆ˜
+select emp_name, position,coalesce(position,'ì—†ìŒ')
 from tb_emp;
 
---case ÇÔ¼ö
+--case í•¨ìˆ˜
 select emp_name, position,
-	case when position is null then '¾øÀ½'
+	case when position is null then 'ì—†ìŒ'
 	else position
-	end as Á÷Ã¥
+	end as ì§ì±…
 from tb_emp;
 
---null, °øÁıÇÕ
+--null, ê³µì§‘í•©
 select coalesce (salary, 0) SAL
 from tb_emp 
-where emp_name = '±èÅÂÁø';
+where emp_name = 'ê¹€íƒœì§„';
 
 select MAX (salary) SAL
 from tb_emp 
-where emp_name = '±èÅÂÁø';
+where emp_name = 'ê¹€íƒœì§„';
 
 select coalesce (MAX(salary), 9999) SAL
 from tb_emp 
-where emp_name = '±èÅÂÁø';
+where emp_name = 'ê¹€íƒœì§„';
