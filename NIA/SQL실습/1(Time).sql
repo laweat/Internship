@@ -1,20 +1,20 @@
-/* ========= ½Ç½À1 ========= */
+/* ========= ì‹¤ìŠµ1 ========= */
 
---ÇöÀç ½Ã°£ Á¶È¸
+--í˜„ì¬ ì‹œê°„ ì¡°íšŒ
 select now();
 
---ÇöÀç ½Ã°£ º¸´Ù ÇÏ·ç Àü ³¯Â¥
+--í˜„ì¬ ì‹œê°„ ë³´ë‹¤ í•˜ë£¨ ì „ ë‚ ì§œ
 select now(), now()::date - '1 day' ::interval;
 
---ÇöÀç Å¸ÀÓÁ¸ Á¶È¸
+--í˜„ì¬ íƒ€ì„ì¡´ ì¡°íšŒ
 show timezone;
 
---½Ã½ºÅÛ ÀÏÀÚ Á¶È¸
+--ì‹œìŠ¤í…œ ì¼ì ì¡°íšŒ
 select current_date , current_time, timeofday();
 
 select now(), current_timestamp, timestamp 'now';
 
---³¯Â¥¿¡¼­ ¿¬µµ ÃßÃâ
+--ë‚ ì§œì—ì„œ ì—°ë„ ì¶”ì¶œ
 select date_part('year',timestamp '2020-07-30 20:38:40'); 
 select date_part('year', current_timestamp);
 
@@ -24,7 +24,7 @@ select extract ('isoyear' from current_timestamp);
 select date_trunc('year', timestamp '2020-07-30 20:38:40');
 select date_trunc('year', current_timestamp);
 
--- ³¯Â¥¿¡¼­ ¿ùÀ» ÃßÃâ
+-- ë‚ ì§œì—ì„œ ì›”ì„ ì¶”ì¶œ
 
 select date_part('month', timestamp '2020-07-30 20:38:40');
 select date_part('month', current_timestamp);
@@ -35,23 +35,23 @@ select extract('month' from interval '2 years 13 months');
 
 select date_trunc('month', timestamp '2020-07-30 20:38:40'); 
 
--- ³¯Â¥¿¡¼­ ÀÏÀ» ÃßÃâÇÏ´Â ¹æ¹ı
+-- ë‚ ì§œì—ì„œ ì¼ì„ ì¶”ì¶œí•˜ëŠ” ë°©ë²•
 
 select date_part('day', timestamp '2020-07-30 20:38:40');
 select date_trunc('day', timestamp '2020-07-30 20:38:40'); 
 
--- ½Ã°£¿¡¼­ ½Ã¸¦ ÃßÃâÇÏ´Â ¹æ¹ı
+-- ì‹œê°„ì—ì„œ ì‹œë¥¼ ì¶”ì¶œí•˜ëŠ” ë°©ë²•
 
 select date_part('hour', timestamp '2013-07-30 20:38:40');
 select date_part('hour', interval '4 hours 3 minutes');
 select date_trunc('hour', timestamp '2020-07-30 20:38:40');
 
--- ½Ã°£¿¡¼­ ºĞÀ» ÃßÃâÇÏ´Â ¹æ¹ı
+-- ì‹œê°„ì—ì„œ ë¶„ì„ ì¶”ì¶œí•˜ëŠ” ë°©ë²•
 
 select date_part('minute', timestamp '2020-07-30 20:38:40');
 select date_trunc('minute', timestamp '2020-07-30 20:38:40');
 
--- ½Ã°£¿¡¼­ ÃÊ¸¦ ÃßÃâÇÏ´Â ¹æ¹ı
+-- ì‹œê°„ì—ì„œ ì´ˆë¥¼ ì¶”ì¶œí•˜ëŠ” ë°©ë²•
 
 select date_part('second', timestamp '2013-07-30 20:38:40');
 select extract('second' from time '17:12:28.5');
