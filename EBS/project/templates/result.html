@@ -434,37 +434,6 @@
         </div>
     </div>
 
-    <!-- 댓글 가장 많이 달린 날 기사 목록
-    <div class="mt-5 container file-upload px-5" id="noneDiv12"
-        style="display: none; padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
-        <div class="col-md">
-            <h4 class="mt-3 youtube-cover d-flex align-center">
-                {{topReviewTop1}} 올라온 네이버 기사 목록
-            </h4>
-
-            <table class="table" style="color: dimgray;">
-                <thead>
-                    <tr>
-                        <th scope="col">제목</th>
-                        <th scope="col">댓글 수</th>
-                        <th scope="col">언론사</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for i in range (topReviewsDateListTitle | length) %}
-                        <tr>
-                            <td><a href="{{topReviewsListLink[i]}}">{{topReviewsListtTitle[i]}}</a></td>
-                            <td>{{topReviewsListCnt[i]}}개</td>
-                            <td>{{topReviewsListPress[i]}}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-
- -->
-
 
     <!-- 워드클라우드 형태로 쓰기 -->
 
@@ -786,9 +755,9 @@
         <div class="col-md">
             <h4 class="mt-3 youtube-cover d-flex align-center">
                 주차별 댓글 빈도수
-            </h4>
+            </h4> 
             <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right"
-                style="size: 2px; color: red;">*삭제된 댓글은 악성댓글로 삭제된 댓글 수입니다. </p>
+                style="size: 2px; color: red;">*삭제된 댓글은 악성댓글로 삭제된 댓글 수입니다. </p> 
             <table class="table table-hover" style="color: dimgray;">
                 <thead>
                     <tr>
@@ -812,7 +781,7 @@
                             {{varCnt[i][7][0]}}: {{varCnt[i][7][1]}} || 
                             {{varCnt[i][8][0]}}: {{varCnt[i][8][1]}} || 
                             {{varCnt[i][9][0]}}: {{varCnt[i][9][1]}}
-                        </td>
+                        </td> 
                         <td>{{varDel[i]}}개</td>
                     </tr>
                     {% endfor %}

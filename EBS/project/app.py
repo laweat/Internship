@@ -1,4 +1,3 @@
-######설정
 from flask import Flask, render_template, request, send_file, make_response, Response
 from io import BytesIO
 import flask
@@ -552,7 +551,7 @@ def result():
         onlyweek = onlyweek.dropna()
         tmpTable = onlyweek["댓글"].groupby(onlyweek['주차']).sum()
         tmpTable = pd.DataFrame(tmpTable)
-        tmpTable["삭제된댓글"] = cancel.values
+        tmpTable["삭제된댓글"] = cancel.values[:len(tmpTable)]
 
         tmpTable["댓글"] = tmpTable["댓글"].apply(lambda x: re.sub("[^가-힣\s]","",str(x)))
 
@@ -682,59 +681,8 @@ if __name__ == '__main__':
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# from flask import Flask, Response
-# app = Flask(__name__)
-
-# @app.route("/")
-# def hello():
-#     return '''
-#         <html><body>
-#         Hello. <a href="/getCsV">Click me.</a>
-#         </body></html>
-#         '''
-
-# @app.route("/getCsV")
-# def getPlotCSV():
-#     with open(f"{keyword}_관련뉴스기사데이터수집.csv",'rt', encoding='UTF8') as fp:
-#         csv = fp.read()
-#     return Response(
-#         csv,
-#         mimetype="text/csv",
-#         headers={"Content-disposition":
-#                  "attachment; filename=myplot.csv"})
-
-
-# app.run(debug=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#문제 
+""" 
+1. 크롬 버전에 맞춰 크롬드라이버 업데이트
+2. 
+"""
