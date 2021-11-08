@@ -1,4 +1,8 @@
-# Internship
-공공빅데이터분석 청년 인턴십<BR><BR>
-NIA 교육 (2021.07 - 2021.08) <BR>
-EBS 인턴 (2021.09 - ing)(Private - LogData 분석)
+## 공공빅데이터분석 청년 인턴십<BR><BR>
+  
+### NIA 교육 (2021.07 - 2021.08) <BR>
+  
+### EBS 인턴 (2021.09 - ing)
+  
+  1. 분석자동화개발
+  2. logData분석(Private)
