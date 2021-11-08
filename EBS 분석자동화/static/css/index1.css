@@ -1,0 +1,17 @@
+.bg-light {
+    background-color: white!important;
+    padding-left: 38px;
+}
+
+.navbar-light .navbar-brand {
+    font-size: 1.00rem;
+    line-height: 1.68;
+    text-align: left;
+    font-weight: 600;
+    color: rgb(247, 168, 0);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #f0bc78;
+    font-size: 0.8rem;
+}
