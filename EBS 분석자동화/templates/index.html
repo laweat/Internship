@@ -1,3 +1,10 @@
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <script>
+            alert("{{messages[-1]}}")
+        </script>
+    {% endif %}
+{% endwith %}
 <!doctype html>
 <html lang="en">
 
@@ -107,6 +114,7 @@
             </div>
         </form>
         <div class="card-footer text-muted">
+            <p style="color: red"> *관련 키워드 기사가 없을시 분석이 진행되지 않습니다</p>
             ❗ Main Service <br>
             1. 단어입력만 하면 네이버뉴스에 한해 다양한 관련 데이터 수집<br>
             2. 수집데이터: 기사제목, 기사본문, 기사업로드날짜, 댓글(수, 내용, 업로드날짜, 성비, 연령대, 시간)<br>
