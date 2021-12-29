@@ -1,0 +1,185 @@
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <script>
+            alert("{{messages[-1]}}")
+        </script>
+    {% endif %}
+{% endwith %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&amp;display=swap" rel="stylesheet">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="icon.png">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" , href="{{ url_for('static', filename='css/index.css')}}">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icon.png') }}">
+    <title>Keyword Analysis</title>
+
+    <style>
+        body {
+            font-family: 'Do Hyeon', sans-serif;
+            background: ghostwhite;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- 메인 -->
+    <section class="section">
+
+        <div class="container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+
+            <h1 class="title" style="color:darkslategray;">🔎Keyword Analysis</h1>
+
+        </div>
+
+        <h2 class="container subtitle text-center">키워드를 검색해 네이버 뉴스의 다양한 정보를 활용한 분석</h2>
+
+    </section>
+
+    <div class="mt-3 container file-upload px-5" style="padding-bottom: 5px;">
+        <form action="/result" method="POST">
+            <div class="mb-1">
+                <label for="exampleInputEmail1" class="form-label" style="color: darkslategray;">분석할 단어는?</label>
+                <input type="text" class="form-control" name="input1" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="분석할 키워드를 입력해주세요">
+            </div>
+            <div class="mb-3">
+                <a href="https://m.help.naver.com/support/contents/contentsView.help?contentsNo=959&lang=ko" 
+                style="
+                    text-decoration: none;
+                    color: red;
+                    font-size: 13px;">
+                    네이버 기반 검색키워드 상세설명( ctrl+click )</a>
+            </div>
+
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label" style="color: darkslategray;">최근 몇개월 내 뉴스기사를
+                    수집하시겠습니까?</label>
+                <input type="number" class="form-control" name="input2" id="exampleInputPassword1"
+                    placeholder="최근 1주일: '7' 입력, 최근 1개월: '1' 입력, 최근 3개월: '3' 입력, 최근 6개월: '6' 입력, 최근 1년: '12' 입력">
+            </div>
+<!-- 
+            <div class="container mt-5 mb-5 youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+
+                
+                <div class="spinner-border text-dark" role="status" id="noneDiv1" style=" display: none; width: 20px; height: 20px; color: darkslategray; margin-top: 10px;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h4 class="title" id="noneDiv" style="color:darkslategray; display: none; ">Analysis in progress...
+                </h4>
+    
+            </div> -->
+
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button class="mt-4 btn btn-primary" type="submit">Analysis
+                </button>
+            </div>
+        </form>
+
+        <div class="d-grid gap-2 col-6 mx-auto" >
+            <button id = "showResult" class="btn btn-primary" onclick="onDisplay()">분석결과 및 진행상황 URL 확인</button>
+        </div>
+
+        <div class="d-grid gap-2 col-6 mx-auto" >
+            <button id = "hideResult" class="btn btn-primary" onclick="offDisplay()" style="display: none;">숨기기</button>
+        </div>
+<!-- 
+        <h4 class="mt-3 text-center" style="color: darkslategray;"> 분석결과 및 진행상황 확인</h4>
+        <div class="container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+            
+            <div>
+                {% for i in range (file_list | length) %}
+                <tr>
+                    <td><a href="http://127.0.0.1:5000/method?num={{file_list[i]}}">http://127.0.0.1:5000/method?num={{file_list[i]}}</a><br></td>
+                </tr>
+                {% endfor %}
+            </div>
+
+        </div> -->
+
+        <div id="result" class="mb-5 container file-upload px-5" style="display: none; padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+            <div class="col-md">
+                <table class="table table-hover" style="color: dimgray;">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">분석결과 및 진행상황 URL 확인</th>
+                            <th scope="col">분석단어</th>
+                            <th scope="col">수집기간</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range (file_list | length) %}
+                            <tr>
+                                <th scope="row">{{i+1}}</th>
+                                <td><a href="http://{{ip_addr}}:5000/method?num={{file_list[i]}}">http://{{ip_addr}}:5000/method?num={{file_list[i]}}</a></td>
+                                <td>{{file_list1[i][22:]}}</td>
+                                <td>{{file_list2[i][22:]}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>        
+        </div>
+
+        <div class="card-footer text-muted">
+            <p style="color: red"> *관련 키워드 기사가 없을시 분석이 진행되지 않습니다</p>
+            ❗ Main Service <br>
+            1. 단어입력만 하면 네이버뉴스에 한해 다양한 관련 데이터 수집<br>
+            2. 수집데이터: 기사제목, 기사본문, 기사업로드날짜, 댓글(수, 내용, 업로드날짜, 성비, 연령대, 시간)<br>
+            3. 직접 분석진행 할수있게 수집된 원본데이터 제공<br>
+            ❗ NOTICE <br>
+            1. 전체뉴스중에 네이버 뉴스 기사 정보만 수집합니다 <br>
+            2. 뉴스 기사 댓글 중 성별, 나이대 정보가 없는 기사도 있습니다 <br>
+            3. 관련 없는 뉴스임에도 불구하고 분석 키워드가 제목에 들어가 같이 정보수집 되는 경우도 있습니다<br>
+            4. 수집데이터가 많으면 수집시간이 오래걸립니다(1개월~3개월 수집 추천)<br>
+            5. 최근 몇개월 입력을 잘못할경우 기본값으로 최근 3개월 기준으로 분석이 진행됩니다<br>
+            ❗ 유지보수관련 문의 및 불편사항<br>
+            💌Email = laweat@naver.com
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+    </script>
+    
+    <script>
+        function onDisplay() {
+            $("#result").show()
+            $("#hideResult").show()
+            $("#showResult").hide()
+        }
+
+        function offDisplay(){
+            $("#result").hide()
+            $("#hideResult").hide()
+            $("#showResult").show()
+        }
+    </script> 
+
+
+</body>
+
+</html>

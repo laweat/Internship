@@ -1,0 +1,905 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="ebs1.css"> -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&amp;display=swap" rel="stylesheet">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="icon.png">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+    </script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link rel="stylesheet", href="{{ jsurl1 }}">
+    <link rel="shortcut icon" href="{{ jsurl2 }}">
+    <title>Keyword Analysis</title>
+    
+    <style>
+        body{
+            font-family: 'Do Hyeon', sans-serif;
+            background: ghostwhite;
+        }
+        th{
+            color: darkslategray;
+        }
+        nav{
+            
+            padding: 0px;
+        }
+        a:hover{
+            color: #0066ff;
+        }
+    </style>
+
+</head>
+<body class="background: white;">
+    
+    <!-- 상단바 -->
+    <section class="section">
+        <nav class="navbar navbar-expand-lg navbar-light container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center" style="padding:0px">
+            <div class="container-fluid" style="padding:0px">
+                <a class="navbar-brand" href="#">분석하다 머리아플땐➪</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="https://fruit-test.netlify.app/">🍋과일상 테스트🍋</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://animal-test.netlify.app/">Mbti기반 동물테스트🐇</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-lg navbar-light container youtube-cover d-flex flex-row-reverse align-center justify-content-center mb-5" style="padding:0px">
+            <div class="container-fluid" style="padding:0px">
+                <a class="navbar-brand" href="#">직접분석하고 싶을땐➪</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="관련뉴스댓글데이터수집.csv">rowData(댓글시간제외).csv</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="뉴스기사데이터수집.csv">댓글시간데이터(기사제목, 댓글시간).csv</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </section>
+    
+    
+    <div class="container d-flex flex-row-reverse align-center justify-content-right mb-3">
+        <button onclick="window.print();" class="btn btn-outline-secondary">
+            Print 및 PDF저장
+        </button>
+    </div>
+    <div class="container">
+        <div class="row">
+            
+            <div class="col" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+                <h4 class="title mb-4" style="padding:0px; text-align: center; color: gray">분석키워드</h4><h3 style = "text-align: center; color: darkslategray;">{{keyword}}</h3>
+            </div>
+            <div class="col" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+                <h4 class="title mb-4" style="padding:0px; text-align: center; color: gray">수집기간</h4><h3 style = "text-align: center;color: darkslategray;">{{num}}</h3>
+            </div>
+            <div class="col" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+                <h4 class="title mb-4" style="padding:0px; text-align: center; color: gray">수집된 기사 수</h4><h3 style = "text-align: center;color: darkslategray;">{{articleCnt}}개</h3>
+            </div>
+            <div class="col" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+                <h4 class="title mb-4" style="padding:0px; text-align: center; color: gray">수집된 댓글 수</h4><h3 style = "text-align: center;color: darkslategray;">{{reviewCnt}}개</h3>
+            </div>
+        </div>
+      </div>
+        
+    </div>
+<!-- 맨 위에 두개 분석 결과  -->
+    <div class="mt-5 container file-upload px-5" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+            <div class="col-md">
+                <h4 class ="mt-3 youtube-cover d-flex align-center">
+                    핫이슈 기사 TOP10
+                </h4>
+                <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right" style="size: 2px; color: red;">*댓글수 기준</p>
+                <table class="table table-hover" style="color: dimgray;">
+                    <thead>
+                        <tr>
+                            <th scope="col">순위</th>
+                            <th scope="col">기사 제목</th>
+                            <th scope="col">댓글 수</th>
+                            <th scope="col">언론사</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range (newsTop10Title | length) %}
+                            <tr>
+                                <th scope="row">{{i+1}}등</th>
+                                <td><a href="{{newsTop10Link[i]}}">{{newsTop10Title[i]}}</a></td>
+                                <td>{{newsTop10reviews[i]}}개</td>
+                                <td>{{newsTop10press[i]}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>        
+    </div>
+
+    <!-- 좋아요 싫어요 분석 -->
+
+    <div class="mt-5 container file-upload px-5" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class ="mt-3 youtube-cover d-flex align-center">
+                핫이슈 댓글 TOP10
+            </h4>
+            <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right" style="size: 2px; color: red;">*좋아요+싫어요 합 기준(댓글 클릭시 관련 기사로 이동)</p>
+            <table class="table table-hover" style="color: dimgray;">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">댓글</th>
+                        <th scope="col">like</th>
+                        <th scope="col">hate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td><a href="{{lhTableTotalRink[0]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[0]}}</a></td>
+                        <td>{{lhTableTotalLike[0]}}</td>
+                        <td>{{lhTableTotalHate[0]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td><a href="{{lhTableTotalRink[1]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[1]}}</a></td>
+                        <td>{{lhTableTotalLike[1]}}</td>
+                        <td>{{lhTableTotalHate[1]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td><a href="{{lhTableTotalRink[2]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[2]}}</a></td>
+                        <td>{{lhTableTotalLike[2]}}</td>
+                        <td>{{lhTableTotalHate[2]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td><a href="{{lhTableTotalRink[3]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[3]}}</a></td>
+                        <td>{{lhTableTotalLike[3]}}</td>
+                        <td>{{lhTableTotalHate[3]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td><a href="{{lhTableTotalRink[4]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[4]}}</a></td>
+                        <td>{{lhTableTotalLike[4]}}</td>
+                        <td>{{lhTableTotalHate[4]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">6</th>
+                        <td><a href="{{lhTableTotalRink[5]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[5]}}</a></td>
+                        <td>{{lhTableTotalLike[5]}}</td>
+                        <td>{{lhTableTotalHate[5]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">7</th>
+                        <td><a href="{{lhTableTotalRink[6]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[6]}}</a></td>
+                        <td>{{lhTableTotalLike[6]}}</td>
+                        <td>{{lhTableTotalHate[6]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">8</th>
+                        <td><a href="{{lhTableTotalRink[7]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[7]}}</a></td>
+                        <td>{{lhTableTotalLike[7]}}</td>
+                        <td>{{lhTableTotalHate[7]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">9</th>
+                        <td><a href="{{lhTableTotalRink[8]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[8]}}</a></td>
+                        <td>{{lhTableTotalLike[8]}}</td>
+                        <td>{{lhTableTotalHate[8]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">10</th>
+                        <td><a href="{{lhTableTotalRink[9]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[9]}}</a></td>
+                        <td>{{lhTableTotalLike[9]}}</td>
+                        <td>{{lhTableTotalHate[9]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="col-md">
+                <div class="flex-row-reverse align-center justify-content-center mt-3" style="text-align: center ;display: block;margin-right: 10px;">
+                    <button onclick="onDisplayReview()" id = "showReview"class="btn btn-outline-secondary">핫이슈 댓글 더보기
+                    </button>
+                    <button onclick="offDisplayReview()" id = "noneReview" class="btn btn-outline-secondary" style="display: none;">핫이슈 댓글 숨기기
+                    </button>
+
+                    <button onclick="onDisplayLike()" id = "showLike"class="btn btn-outline-secondary">좋아요 순으로 보기
+                    </button>
+                    <button onclick="offDisplayLike()" id = "noneLike" class="btn btn-outline-secondary" style="display: none;">좋아요 순 숨기기
+                    </button>
+
+                    <button onclick="onDisplayHate()" id = "showHate"class="btn btn-outline-secondary">싫어요 순으로 보기
+                    </button>
+                    <button onclick="offDisplayHate()" id = "noneHate" class="btn btn-outline-secondary" style="display: none;">싫어요 순 숨기기
+                    </button>
+                </div>
+            </div>
+            
+        </div>        
+    </div>
+
+    
+    <div id="top40" class="mt-5 container file-upload px-5" style="display: none; padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class ="mt-3 youtube-cover d-flex align-center">
+                핫이슈 댓글 TOP40
+            </h4>
+            <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right" style="size: 2px; color: red;">*좋아요+싫어요 합 기준(댓글 클릭시 관련 기사로 이동)</p>
+            <table class="table table-hover" style="color: dimgray;">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">댓글</th>
+                        <th scope="col">like</th>
+                        <th scope="col">hate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(lhTableTotalReview | length) %}
+                        <tr>
+                            <th scope="row">{{i+1}}</th>
+                            <td><a href="{{lhTableTotalRink[i]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableTotalReview[i]}}</a></td>
+                            <td>{{lhTableTotalLike[i]}}</td>
+                            <td>{{lhTableTotalHate[i]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="flex-row-reverse align-center justify-content-center mt-3" style="text-align: center ;display: block;margin-right: 10px;">
+                <button onclick="offDisplayReview()" id = "noneReview" class="btn btn-outline-secondary">핫이슈 댓글 숨기기
+                </button>
+            </div>
+        </div>        
+    </div>
+
+    <div id="like40" class="mt-5 container file-upload px-5" style="display: none; padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class ="mt-3 youtube-cover d-flex align-center">
+                좋아요 순 댓글순위
+            </h4>
+            <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right" style="size: 2px; color: red;">*like 기준(댓글 클릭시 관련 기사로 이동)</p>
+            <table class="table table-hover" style="color: dimgray;">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">댓글</th>
+                        <th scope="col">like</th>
+                        <th scope="col">hate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(lhTableLikeReview | length) %}
+                        <tr>
+                            <th scope="row">{{i+1}}</th>
+                            <td><a href="{{lhTableLikeRink[i]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableLikeReview[i]}}</a></td>
+                            <td>{{lhTableLikeLike[i]}}</td>
+                            <td>{{lhTableLikeHate[i]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="flex-row-reverse align-center justify-content-center mt-3" style="text-align: center ;display: block;margin-right: 10px;">    
+                <button onclick="offDisplayLike()" id = "noneLike" class="btn btn-outline-secondary">좋아요 순 숨기기
+                </button>
+            </div>
+        </div>        
+    </div>
+
+
+    <div id="hate40" class="mt-5 container file-upload px-5" style="display: none; padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class ="mt-3 youtube-cover d-flex align-center">
+                싫어요 순 댓글순위
+            </h4>
+            <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right" style="size: 2px; color: red;">*hate 기준(댓글 클릭시 관련 기사로 이동)</p>
+            <table class="table table-hover" style="color: dimgray;">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">댓글</th>
+                        <th scope="col">like</th>
+                        <th scope="col">hate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(lhTableHateReview | length) %}
+                        <tr>
+                            <th scope="row">{{i+1}}</th>
+                            <td><a href="{{lhTableHateRink[i]}}" class="hov1" style="text-decoration: none; color: #585858;">{{lhTableHateReview[i]}}</a></td>
+                            <td>{{lhTableHateLike[i]}}</td>
+                            <td>{{lhTableHateHate[i]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="flex-row-reverse align-center justify-content-center mt-3" style="text-align: center ;display: block;margin-right: 10px;">       
+                <button onclick="offDisplayHate()" id = "noneHate" class="btn btn-outline-secondary">싫어요 순 숨기기
+                </button>
+            </div>
+        </div>        
+    </div>
+
+
+
+<!-- 나이대별 , 성비 분석 결과  -->
+
+    <div class="mt-5 container file-upload px-5 " style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="row g-2">
+            <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right"
+                style="size: 2px; color: red;">*수집한 기사 중 댓글 100개 이상의 기사가 없을경우 분석결과가 없음. </p>
+            <div class="col-md">
+                <h4 class ="container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                    성별 댓글 비율 
+                </h4>
+                 
+                <div class = "container youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                    <img src="a.png" width="500" height="500"/>
+                </div>
+            </div>
+            <div class="col-md">
+                <h4 class ="container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                    나이대 댓글 비율
+                </h4>
+                <div class = "container youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                    <img src="b.png" width="500" height="500"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 날짜별 기사 업로드 수 -->
+    <div class="mt-5 container px-5" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+            <h4 class ="container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                날짜별 "기사" 업로드 수 
+            </h4>
+            <div class = "container youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                <img src="c.png" width=100% height="500"/>
+            </div>
+            <div class="d-flex flex-row-reverse align-center justify-content-center mt-3" style="display: block;margin-right: 10px;">
+                <button onclick="onDisplay()" id = "showDiv"class="btn btn-outline-secondary"> 가장 많이 업로드 된 날짜 기사 목록
+                </button>
+                <button onclick="offDisplay()" id = "noneDiv" class="btn btn-outline-secondary" style="display: none;">네이버 기사 목록 숨기기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 기사 가장 많이 달린 날 기사 목록 -->
+    <div class="mt-5 container file-upload px-5" id="noneDiv1"
+        style="display: none; padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class="mt-3 youtube-cover d-flex align-center">
+                가장 많이 업로드 된 날짜 기사 목록
+            </h4>
+
+            <table class="table" style="color: dimgray;">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">제목</th>
+                        <th scope="col">댓글 수</th>
+                        <th scope="col">언론사</th>
+                        <th scope="col">날짜</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range (topNewsListTitle | length) %}
+                        <tr>
+                            <td><a href="{{topNewsListLink[i]}}">{{topNewsListTitle[i]}}</a></td>
+                            <td>{{topNewsListReviewCnt[i]}}개</td>
+                            <td>{{topNewsListPress[i]}}</td>
+                            <td>{{topNewsListDate[i]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <!-- 날짜별 댓글 업로드 수 -->
+    <div class="mt-5 container px-5" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class ="container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                날짜별 "댓글" 업로드 수 
+            </h4>
+            <div class = "container youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                <img src="d.png" width=100% height="500"/>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 워드클라우드 형태로 쓰기 -->
+
+    <div class="mt-5 mb-5 container px-5" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="row g-2">
+            <div class="col-md">
+                <h4 class ="container mt-3 mb-5">
+                    댓글 빈도수 순위 
+                </h4>
+                <table class="table table-hover" style="color: dimgray;">
+                    <thead>
+                        <tr>
+                            <th scope="col">순위</th>
+                            <th scope="col">단어</th>
+                            <th scope="col">빈도수</th>
+                            <th scope="col">순위</th>
+                            <th scope="col">단어</th>
+                            <th scope="col">빈도수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1등</th>
+                            <td>{{rank[0][0]}}</td>
+                            <td>{{rank[0][1]}}개</td>
+                            <th scope="row">11등</th>
+                            <td>{{rank[10][0]}}</td>
+                            <td>{{rank[10][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2등</th>
+                            <td>{{rank[1][0]}}</td>
+                            <td>{{rank[1][1]}}개</td>
+                            <th scope="row">12등</th>
+                            <td>{{rank[11][0]}}</td>
+                            <td>{{rank[11][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3등</th>
+                            <td>{{rank[2][0]}}</td>
+                            <td>{{rank[2][1]}}개</td>
+                            <th scope="row">13등</th>
+                            <td>{{rank[12][0]}}</td>
+                            <td>{{rank[12][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4등</th>
+                            <td>{{rank[3][0]}}</td>
+                            <td>{{rank[3][1]}}개</td>
+                            <th scope="row">14등</th>
+                            <td>{{rank[13][0]}}</td>
+                            <td>{{rank[13][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5등</th>
+                            <td>{{rank[4][0]}}</td>
+                            <td>{{rank[4][1]}}개</td>
+                            <th scope="row">15등</th>
+                            <td>{{rank[14][0]}}</td>
+                            <td>{{rank[14][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6등</th>
+                            <td>{{rank[5][0]}}</td>
+                            <td>{{rank[5][1]}}개</td>
+                            <th scope="row">16등</th>
+                            <td>{{rank[15][0]}}</td>
+                            <td>{{rank[15][1]}}개</td>
+                        </tr>
+            
+                        <tr>
+                            <th scope="row">7등</th>
+                            <td>{{rank[6][0]}}</td>
+                            <td>{{rank[6][1]}}개</td>
+                            <th scope="row">17등</th>
+                            <td>{{rank[16][0]}}</td>
+                            <td>{{rank[16][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8등</th>
+                            <td>{{rank[7][0]}}</td>
+                            <td>{{rank[7][1]}}개</td>
+                            <th scope="row">18등</th>
+                            <td>{{rank[17][0]}}</td>
+                            <td>{{rank[17][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">9등</th>
+                            <td>{{rank[8][0]}}</td>
+                            <td>{{rank[8][1]}}개</td>
+                            <th scope="row">19등</th>
+                            <td>{{rank[18][0]}}</td>
+                            <td>{{rank[18][1]}}개</td>
+                        </tr>
+            
+                        <tr>
+                            <th scope="row">10등</th>
+                            <td>{{rank[9][0]}}</td>
+                            <td>{{rank[9][1]}}개</td>
+                            <th scope="row">20등</th>
+                            <td>{{rank[19][0]}}</td>
+                            <td>{{rank[19][1]}}개</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="col-md">
+                    <div class="flex-row-reverse align-center justify-content-center mt-3" style="text-align: center ;display: block;margin-right: 10px;">
+                        <button onclick="onDisplay1()" id = "showDiv2"class="btn btn-outline-secondary">댓글 빈도수 순위 더보기
+                        </button>
+                        <button onclick="offDisplay1()" id = "noneDiv2" class="btn btn-outline-secondary" style="display: none;">댓글 빈도수 순위 숨기기
+                        </button>
+
+                        <button onclick="onDisplay2()" id = "showDiv3"class="btn btn-outline-secondary">주차별 댓글 빈도수 확인
+                        </button>
+                        <button onclick="offDisplay2()" id = "noneDiv3" class="btn btn-outline-secondary" style="display: none;">주차별 댓글 빈도수 숨기기
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-md ">
+                <h4 class ="container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center mb-5">
+                    댓글 빈도수 시각화(WordCloud) 
+                </h4>
+                <div class = "container youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                    <img src="e.png" width="500" height="500"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 mb-5 container px-5"id="noneDiv12" style="display: none; padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="row g-2">
+            <div class="col-md">
+                <h4 class ="container mt-3 mb-5">
+                    댓글 빈도수 순위 
+                </h4>
+                <table class="table table-hover" style="color: dimgray;">
+                    <thead>
+                        <tr>
+                            <th scope="col">순위</th>
+                            <th scope="col">단어</th>
+                            <th scope="col">빈도수</th>
+                            <th scope="col">순위</th>
+                            <th scope="col">단어</th>
+                            <th scope="col">빈도수</th>
+                            <th scope="col">순위</th>
+                            <th scope="col">단어</th>
+                            <th scope="col">빈도수</th>
+                            <th scope="col">순위</th>
+                            <th scope="col">단어</th>
+                            <th scope="col">빈도수</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1등</th>
+                            <td>{{rank[0][0]}}</td>
+                            <td>{{rank[0][1]}}개</td>
+                            <th scope="row">11등</th>
+                            <td>{{rank[10][0]}}</td>
+                            <td>{{rank[10][1]}}개</td>
+
+                            <th scope="row">21등</th>
+                            <td>{{rank[20][0]}}</td>
+                            <td>{{rank[20][1]}}개</td>
+                            <th scope="row">31등</th>
+                            <td>{{rank[30][0]}}</td>
+                            <td>{{rank[30][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2등</th>
+                            <td>{{rank[1][0]}}</td>
+                            <td>{{rank[1][1]}}개</td>
+                            <th scope="row">12등</th>
+                            <td>{{rank[11][0]}}</td>
+                            <td>{{rank[11][1]}}개</td>
+
+                            <th scope="row">22등</th>
+                            <td>{{rank[21][0]}}</td>
+                            <td>{{rank[21][1]}}개</td>
+                            <th scope="row">32등</th>
+                            <td>{{rank[31][0]}}</td>
+                            <td>{{rank[31][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3등</th>
+                            <td>{{rank[2][0]}}</td>
+                            <td>{{rank[2][1]}}개</td>
+                            <th scope="row">13등</th>
+                            <td>{{rank[12][0]}}</td>
+                            <td>{{rank[12][1]}}개</td>
+
+                            <th scope="row">23등</th>
+                            <td>{{rank[22][0]}}</td>
+                            <td>{{rank[22][1]}}개</td>
+                            <th scope="row">33등</th>
+                            <td>{{rank[32][0]}}</td>
+                            <td>{{rank[32][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4등</th>
+                            <td>{{rank[3][0]}}</td>
+                            <td>{{rank[3][1]}}개</td>
+                            <th scope="row">14등</th>
+                            <td>{{rank[13][0]}}</td>
+                            <td>{{rank[13][1]}}개</td>
+
+                            <th scope="row">24등</th>
+                            <td>{{rank[23][0]}}</td>
+                            <td>{{rank[23][1]}}개</td>
+                            <th scope="row">34등</th>
+                            <td>{{rank[33][0]}}</td>
+                            <td>{{rank[33][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5등</th>
+                            <td>{{rank[4][0]}}</td>
+                            <td>{{rank[4][1]}}개</td>
+                            <th scope="row">15등</th>
+                            <td>{{rank[14][0]}}</td>
+                            <td>{{rank[14][1]}}개</td>
+
+                            <th scope="row">25등</th>
+                            <td>{{rank[24][0]}}</td>
+                            <td>{{rank[24][1]}}개</td>
+                            <th scope="row">35등</th>
+                            <td>{{rank[34][0]}}</td>
+                            <td>{{rank[34][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6등</th>
+                            <td>{{rank[5][0]}}</td>
+                            <td>{{rank[5][1]}}개</td>
+                            <th scope="row">16등</th>
+                            <td>{{rank[15][0]}}</td>
+                            <td>{{rank[15][1]}}개</td>
+
+                            <th scope="row">26등</th>
+                            <td>{{rank[25][0]}}</td>
+                            <td>{{rank[25][1]}}개</td>
+                            <th scope="row">36등</th>
+                            <td>{{rank[35][0]}}</td>
+                            <td>{{rank[35][1]}}개</td>
+                        </tr>
+            
+                        <tr>
+                            <th scope="row">7등</th>
+                            <td>{{rank[6][0]}}</td>
+                            <td>{{rank[6][1]}}개</td>
+                            <th scope="row">17등</th>
+                            <td>{{rank[16][0]}}</td>
+                            <td>{{rank[16][1]}}개</td>
+
+                            <th scope="row">27등</th>
+                            <td>{{rank[26][0]}}</td>
+                            <td>{{rank[26][1]}}개</td>
+                            <th scope="row">37등</th>
+                            <td>{{rank[36][0]}}</td>
+                            <td>{{rank[36][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8등</th>
+                            <td>{{rank[7][0]}}</td>
+                            <td>{{rank[7][1]}}개</td>
+                            <th scope="row">18등</th>
+                            <td>{{rank[17][0]}}</td>
+                            <td>{{rank[17][1]}}개</td>
+
+                            <th scope="row">28등</th>
+                            <td>{{rank[27][0]}}</td>
+                            <td>{{rank[27][1]}}개</td>
+                            <th scope="row">38등</th>
+                            <td>{{rank[37][0]}}</td>
+                            <td>{{rank[37][1]}}개</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">9등</th>
+                            <td>{{rank[8][0]}}</td>
+                            <td>{{rank[8][1]}}개</td>
+                            <th scope="row">19등</th>
+                            <td>{{rank[18][0]}}</td>
+                            <td>{{rank[18][1]}}개</td>
+
+                            <th scope="row">29등</th>
+                            <td>{{rank[28][0]}}</td>
+                            <td>{{rank[28][1]}}개</td>
+                            <th scope="row">39등</th>
+                            <td>{{rank[38][0]}}</td>
+                            <td>{{rank[38][1]}}개</td>
+                        </tr>
+            
+                        <tr>
+                            <th scope="row">10등</th>
+                            <td>{{rank[9][0]}}</td>
+                            <td>{{rank[9][1]}}개</td>
+                            <th scope="row">20등</th>
+                            <td>{{rank[19][0]}}</td>
+                            <td>{{rank[19][1]}}개</td>
+
+                            <th scope="row">30등</th>
+                            <td>{{rank[29][0]}}</td>
+                            <td>{{rank[29][1]}}개</td>
+                            <th scope="row">40등</th>
+                            <td>{{rank[39][0]}}</td>
+                            <td>{{rank[39][1]}}개</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 주차별 댓글 빈도수 순위 -->
+
+    <div class="mt-5 container file-upload px-5 mb-5" id="noneDiv13"
+        style="display: none; padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class="mt-3 youtube-cover d-flex align-center">
+                주차별 댓글 빈도수
+            </h4> 
+            <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right"
+                style="size: 2px; color: red;">*삭제된 댓글은 악성댓글로 삭제된 댓글 수입니다. </p> 
+            <table class="table table-hover" style="color: dimgray;">
+                <thead>
+                    <tr>
+                        <th scope="col">주차</th>
+                        <th scope="col">댓글 : 빈도수</th>
+                        <th scope="col">삭제 댓글수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range (finalweek | length) %}
+                    <tr>
+                        <th scope="row">{{varWeek[i]}}주차</th>
+                        <td>
+                        {% for x in range (10) %}
+                        
+                            {{varCnt[i][x][0]}}: {{varCnt[i][x][1]}}
+                         
+                        
+                            {% if x == (varCnt[i] | length -1) %}
+                                {% break %}
+                            {% endif %}
+
+                        {% endfor %}
+                        </td>
+                        <td>{{varDel[i]}}개</td>
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class = "container youtube-cover d-flex flex-row-reverse align-center justify-content-center">
+                <img src="../../date.png" width=100% height="500"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto mb-3">
+        <button  onclick="location.href='http://{{ip_addr}}:5000/'" class="mt-4 btn btn-primary">초기화면으로 돌아가기
+        </button>
+    </div>
+
+
+    <div class="container card-footer text-muted">
+        ❗ NOTICE <br>
+        1. 전체뉴스중에 네이버 뉴스 기사 정보만 수집합니다 <br>
+        2. 뉴스 기사 댓글 중 성별, 나이대 정보가 없는 기사도 있습니다 <br>
+        3. 관련 없는 뉴스임에도 불구하고 분석 키워드가 제목에 들어가 같이 정보수집 되는 경우도 있습니다<br>
+        4. 수집데이터가 많으면 수집시간이 오래걸립니다(1개월~3개월 수집 추천)<br>
+        5. 최근 몇개월 입력을 잘못할경우 기본값으로 최근 1개월 기준으로 분석이 진행됩니다<br>
+        ❗ 유지보수관련 문의 및 불편사항<br>
+        💌Email = laweat@naver.com
+    </div>
+    <script>
+
+        // 날짜 숨기기
+        function onDisplay() {
+            $("#noneDiv").show()
+            $("#noneDiv1").show()
+            $("#showDiv").hide()
+            
+        }
+
+        function offDisplay() {
+            $("#noneDiv").hide()
+            $("#noneDiv1").hide()
+            $("#showDiv").show()
+        }
+
+
+        // 전체 댓글 빈도수
+        function onDisplay1() {
+            $("#noneDiv2").show()
+            $("#noneDiv12").show()
+            $("#showDiv2").hide()
+            
+        }
+
+        function offDisplay1() {
+            $("#noneDiv2").hide()
+            $("#noneDiv12").hide()
+            $("#showDiv2").show()
+        }
+
+        //주차별 댓글 빈도수
+        function onDisplay2() {
+            $("#noneDiv3").show()
+            $("#noneDiv13").show()
+            $("#showDiv3").hide()
+            
+        }
+
+        function offDisplay2() {
+            $("#noneDiv3").hide()
+            $("#noneDiv13").hide()
+            $("#showDiv3").show()
+        }
+
+        
+        // 댓글순위 더보기
+        function onDisplayReview() {
+            $("#top40").show()
+            $("#noneReview").show()
+            $("#showReview").hide()
+        }
+        function offDisplayReview() {
+            $("#top40").hide()
+            $("#noneReview").hide()
+            $("#showReview").show()
+        }
+
+        // 좋아요 함수
+        function onDisplayLike() {
+            $("#like40").show()
+            $("#noneLike").show()
+            $("#showLike").hide()
+        }
+        function offDisplayLike() {
+            $("#like40").hide()
+            $("#noneLike").hide()
+            $("#showLike").show()
+        }
+
+        // 싫어요 함수
+        function onDisplayHate() {
+            $("#hate40").show()
+            $("#noneHate").show()
+            $("#showHate").hide()
+        }
+        function offDisplayHate() {
+            $("#hate40").hide()
+            $("#noneHate").hide()
+            $("#showHate").show()
+        }
+        
+    </script>
+
+
+</body>
+
+</html>

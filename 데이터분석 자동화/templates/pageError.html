@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="ebs1.css"> -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&amp;display=swap" rel="stylesheet">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="icon.png">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+        </script>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <link rel="stylesheet", href="{{ jsurl1 }}">
+        <link rel="shortcut icon" href="{{ jsurl2 }}">
+        <title>Keyword Analysis</title>
+        
+        <style>
+            body{
+                font-family: 'Do Hyeon', sans-serif;
+                background: ghostwhite;
+            }
+            th{
+                color: darkslategray;
+            }
+            nav{
+                
+                padding: 0px;
+            }
+            a:hover{
+                color: #0066ff;
+            }
+        </style>
+</head>
+<body class="background: white;">
+    <!-- 상단바 -->
+    <section class="section">
+        <nav class="navbar navbar-expand-lg navbar-light container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-center" style="padding:0px">
+            <div class="container-fluid" style="padding:0px">
+                <a class="navbar-brand" href="#">분석하다 머리아플땐➪</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="https://fruit-test.netlify.app/">🍋과일상 테스트🍋</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://animal-test.netlify.app/">Mbti기반 동물테스트🐇</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </section>
+
+    <div class="container d-flex flex-row-reverse align-center justify-content-right mb-3">
+        <button onclick="window.print();" class="btn btn-outline-secondary">
+            Print 및 PDF저장
+        </button>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+                <h4 class="title mb-4" style="padding:0px; text-align: center; color: gray">분석키워드</h4><h3 style = "text-align: center; color: darkslategray;">{{keyword}}</h3>
+            </div>
+            <div class="col" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+                <h4 class="title mb-4" style="padding:0px; text-align: center; color: gray">수집기간</h4><h3 style = "text-align: center;color: darkslategray;">{{num}}</h3>
+            </div>
+            <div class="col" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+                <h4 class="title mb-4" style="padding:0px; text-align: center; color: gray">수집된 기사 수</h4><h3 style = "text-align: center;color: darkslategray;">{{articleCnt}}개</h3>
+            </div>
+            <div class="col" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+                <h4 class="title mb-4" style="padding:0px; text-align: center; color: gray">수집된 댓글 수</h4><h3 style = "text-align: center;color: darkslategray;">{{reviewCnt}}개</h3>
+            </div>
+        </div>
+      </div>
+
+
+      <div class="mt-5 container file-upload px-5 mb-3" style="padding-bottom: 5px; padding-top: 5px;background: white; box-shadow: 0.5px 0.5px 5px 1px; border-radius: 0.2rem;">
+        <div class="col-md">
+            <h4 class ="mt-3 youtube-cover d-flex align-center">
+                수집된 기사 목록
+            </h4>
+            <p class="mb-3 container mt-3 youtube-cover d-flex flex-row-reverse align-center justify-content-right" style="size: 2px; color: red;">
+                * 댓글 기반 분석이 진행되므로 기사의 댓글이 없을경우 기사목록만 제공됩니다.
+            </p>
+            <table class="table table-hover" style="color: dimgray;">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">기사 제목</th>
+                        <th scope="col">날짜</th>
+                        <th scope="col">언론사</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range (newsDataTitle | length) %}
+                        <tr>
+                            <th scope="row">{{i+1}}</th>
+                            <td><a href="{{newsDataLink[i]}}">{{newsDataTitle[i]}}</a></td>
+                            <td>{{newsDataDate[i]}}</td>
+                            <td>{{newsDataPress[i]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>        
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto mb-3">
+        <button  onclick="location.href='http://{{ip_addr}}:5000/'" class="mt-4 btn btn-primary">초기화면으로 돌아가기
+        </button>
+    </div>
+
+</body>
+</html>
